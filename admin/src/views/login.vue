@@ -53,6 +53,7 @@
                           </label>
 
                           <button type="button"
+                                  @click="login()"
                                   class="width-35 pull-right btn btn-sm btn-primary">
                             <i class="ace-icon fa fa-key"></i>
                             <span class="bigger-110">Login</span>
@@ -75,5 +76,11 @@
 $('body').attr('class', 'login-layout light-login');
 export default {
   name: 'login',
+  methods: {
+    /*假登录*/
+    login() {
+      this.$router.push("/admin")
+    }
+  }
 }
 </script>
