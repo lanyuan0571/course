@@ -16,7 +16,7 @@
           <a href="index.html" class="navbar-brand">
             <small>
               <i class="fa fa-leaf"></i>
-              Ace Admin
+              在线视频课程
             </small>
           </a>
         </div>
@@ -280,7 +280,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="assets/images/avatars/user.jpg" alt="Jason's Photo"/>
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/topic.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
 									Jason
@@ -358,7 +358,7 @@
           <li class="">
             <a href="index.html">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> Dashboard </span>
+              <span class="menu-text">欢迎</span>
             </a>
 
             <b class="arrow"></b>
@@ -858,8 +858,8 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">Ace</span>
-							Application &copy; 2013-2014
+							<span class="blue bolder">在线视频课程</span>
+							JavaEngineer &copy; 2022-2099
 						</span>
 
             &nbsp; &nbsp;
