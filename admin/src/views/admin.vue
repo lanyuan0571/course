@@ -758,8 +758,29 @@
 export default {
   name: 'admin',
   mounted: function () {
+    let _this = this;
     $('body').removeClass('login-layout light-login');
     $('body').attr('class', 'no-skin');
+    /*初始化监听器*/
+    _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+  },
+  /*vue内置的watch ，用来监测Vue实例上的数据变动。$router也是一个变量
+*/
+  watch: {
+    $route: {
+      handler: function (val, oldVal) {
+        // sidebar激活样式方法二
+        console.log("---->页面跳转：", val, oldVal);
+        let _this = this;
+        // if (!_this.hasResourceRouter(val.name)) {
+        //   _this.$router.push("/login");
+        //   return;
+        // }
+        _this.$nextTick(function () {  //页面加载完成后执行
+          _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
+        })
+      }
+    }
   },
   methods: {
     login() {

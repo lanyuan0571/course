@@ -980,7 +980,7 @@
 export default {
   name: 'business',
   mounted: function () {
-    this.$parent.activeSidebar("business-chapter-sidebar")
+    // this.$parent.activeSidebar("business-chapter-sidebar")
   },
   methods: {}
 }
