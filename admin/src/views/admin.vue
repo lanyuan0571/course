@@ -283,7 +283,7 @@
                 <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/topic.jpg" alt="Jason's Photo"/>
                 <span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									lanyuan
 								</span>
 
                 <i class="ace-icon fa fa-caret-down"></i>
@@ -293,14 +293,14 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-cog"></i>
-                    Settings
+                    系统设置
                   </a>
                 </li>
 
                 <li>
                   <a href="profile.html">
                     <i class="ace-icon fa fa-user"></i>
-                    Profile
+                    个人信息
                   </a>
                 </li>
 
@@ -309,7 +309,7 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-power-off"></i>
-                    Logout
+                    退出登录
                   </a>
                 </li>
               </ul>
@@ -321,8 +321,7 @@
 
     <div class="main-container ace-save-state" id="main-container">
 
-      <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
-
+      <div id="sidebar" class="sidebar   responsive           ace-save-state">
 
         <div class="sidebar-shortcuts" id="sidebar-shortcuts">
           <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
@@ -355,21 +354,19 @@
         </div><!-- /.sidebar-shortcuts -->
 
         <ul class="nav nav-list">
-          <li class="">
-            <a href="index.html">
+          <li class="" id="welcome-sidebar">
+            <router-link to="/admin/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
               <span class="menu-text">欢迎</span>
-            </a>
+            </router-link>
 
             <b class="arrow"></b>
           </li>
 
-          <li class="">
+          <li class="active open">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-desktop"></i>
-              <span class="menu-text">
-								UI &amp; Elements
-							</span>
+              <span class="menu-text">系统管理</span>
 
               <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -380,8 +377,7 @@
               <li class="">
                 <a href="#" class="dropdown-toggle">
                   <i class="menu-icon fa fa-caret-right"></i>
-
-                  Layouts
+                  用户管理
                   <b class="arrow fa fa-angle-down"></b>
                 </a>
 
@@ -562,10 +558,10 @@
             </ul>
           </li>
 
-          <li class="">
+          <li class="active open">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-list"></i>
-              <span class="menu-text"> Tables </span>
+              <span class="menu-text"> 业务管理 </span>
 
               <b class="arrow fa fa-angle-down"></b>
             </a>
@@ -573,27 +569,18 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-              <li class="">
-                <a href="tables.html">
+              <li class="active" id="business-chapter-sidebar">
+                <router-link to="/admin/business/chapter">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  Simple &amp; Dynamic
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="jqgrid.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  jqGrid plugin
-                </a>
+                  大章管理
+                </router-link>
 
                 <b class="arrow"></b>
               </li>
             </ul>
           </li>
 
-          <li class="">
+          <li class="active open">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-pencil-square-o"></i>
               <span class="menu-text"> Forms </span>
@@ -644,125 +631,6 @@
                 <a href="dropzone.html">
                   <i class="menu-icon fa fa-caret-right"></i>
                   Dropzone File Upload
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-            </ul>
-          </li>
-
-          <li class="">
-            <a href="widgets.html">
-              <i class="menu-icon fa fa-list-alt"></i>
-              <span class="menu-text"> Widgets </span>
-            </a>
-
-            <b class="arrow"></b>
-          </li>
-
-          <li class="">
-            <a href="calendar.html">
-              <i class="menu-icon fa fa-calendar"></i>
-
-              <span class="menu-text">
-								Calendar
-
-								<span class="badge badge-transparent tooltip-error" title="2 Important Events">
-									<i class="ace-icon fa fa-exclamation-triangle red bigger-130"></i>
-								</span>
-							</span>
-            </a>
-
-            <b class="arrow"></b>
-          </li>
-
-          <li class="">
-            <a href="gallery.html">
-              <i class="menu-icon fa fa-picture-o"></i>
-              <span class="menu-text"> Gallery </span>
-            </a>
-
-            <b class="arrow"></b>
-          </li>
-
-          <li class="">
-            <a href="#" class="dropdown-toggle">
-              <i class="menu-icon fa fa-tag"></i>
-              <span class="menu-text"> More Pages </span>
-
-              <b class="arrow fa fa-angle-down"></b>
-            </a>
-
-            <b class="arrow"></b>
-
-            <ul class="submenu">
-              <li class="">
-                <a href="profile.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  User Profile
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="inbox.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Inbox
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="pricing.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Pricing Tables
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="invoice.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Invoice
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="timeline.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Timeline
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="search.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Search Results
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="email.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Email Templates
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="login.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Login &amp; Register
                 </a>
 
                 <b class="arrow"></b>
@@ -825,7 +693,7 @@
               <li class="active">
                 <a href="blank.html">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  Blank Page
+                  文件管理
                 </a>
 
                 <b class="arrow"></b>
@@ -893,5 +761,25 @@ export default {
     $('body').removeClass('login-layout light-login');
     $('body').attr('class', 'no-skin');
   },
+  methods: {
+    login() {
+      this.$router.push("/admin")
+    },
+    /*菜单激活样式
+    id是当前菜单的id
+    * */
+    activeSidebar: function (id) {
+      //兄弟菜单去掉active样式,自身增加active样式
+      $('#' + id).siblings().removeClass("active");
+      $('#' + id).siblings().find("li").removeClass("active");
+      $('#' + id).addClass("active");
+      //如果有父菜单,父菜单的兄弟去掉"active open",父菜单增加open active
+      let parentLi = $("#" + id).parent("li");
+      if (parentLi) {
+        parentLi.siblings().removeClass("open active");
+        parentLi.addClass("open active");
+      }
+    }
+  }
 }
 </script>
