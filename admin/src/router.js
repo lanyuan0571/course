@@ -29,7 +29,8 @@ export default new Router({
         path: "/login",
         component: Login
     }, {
-        path: "/admin",
+        path: "/",
+        name: "admin",
         component: Admin,
         /*子路由不要加斜杠*/
         children: [{
@@ -38,6 +39,7 @@ export default new Router({
             component: Welcome
         }, {
             path: "business/chapter",
+            name: "business/chapter",
             component: Chapter,
         }]
     }]

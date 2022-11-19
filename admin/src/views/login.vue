@@ -82,7 +82,7 @@ export default {
   methods: {
     /*假登录*/
     login() {
-      this.$router.push("/admin")
+      this.$router.push("/welcome")
     }
   }
 }
