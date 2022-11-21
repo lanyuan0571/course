@@ -138,6 +138,11 @@ export default {
     },
     saveChapter(page) {
       let _this = this;
+      // 保存校验
+      if (!Validator.require(_this.chapter.name, "名称")
+          || !Validator.length(_this.chapter.courseId, "课程ID", 1, 8)) {
+        return;
+      }
       Loading.show();
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/saveChapter",
           _this.chapter).then((response) => {
@@ -197,7 +202,7 @@ export default {
       // })
       Confirm.show("删除大章后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response)=>{
+        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
           Loading.hide();
           console.log("删除大章列表数据", response);
           let resp = response.data;
