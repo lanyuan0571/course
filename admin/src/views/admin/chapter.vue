@@ -171,30 +171,42 @@ export default {
     },
     deleteChapter(id) {
       let _this = this;
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.value) {
-          Loading.show();
-          _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
-            Loading.hide();
-            console.log("删除大章列表数据", response)
-            let resp = response.data;
-            //判断是否成功
-            if (resp.success) {
-              //刷新一下
-              _this.list(1);
-              Toast.success("删除成功！");
-            }
-          })
-        }
-      })
+      // Swal.fire({
+      //   title: 'Are you sure?',
+      //   text: "You won't be able to revert this!",
+      //   icon: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Yes, delete it!'
+      // }).then((result) => {
+      //   if (result.value) {
+      //     Loading.show();
+      //     _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
+      //       Loading.hide();
+      //       console.log("删除大章列表数据", response)
+      //       let resp = response.data;
+      //       //判断是否成功
+      //       if (resp.success) {
+      //         //刷新一下
+      //         _this.list(1);
+      //         Toast.success("删除成功！");
+      //       }
+      //     })
+      //   }
+      // })
+      Confirm.show("删除大章后不可恢复，确认删除？", function () {
+        Loading.show();
+        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response)=>{
+          Loading.hide();
+          console.log("删除大章列表数据", response);
+          let resp = response.data;
+          if (resp.success) {
+            _this.list(1);
+            Toast.success("删除成功！");
+          }
+        })
+      });
     }
   }
 }
