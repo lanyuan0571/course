@@ -106,6 +106,7 @@
 <script>
 //引入分页组件
 import Pagination from "../../components/pagination";
+
 export default {
   components: {Pagination},
   name: 'business',
@@ -137,8 +138,10 @@ export default {
     },
     saveChapter(page) {
       let _this = this;
+      Loading.show();
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/saveChapter",
           _this.chapter).then((response) => {
+        Loading.hide();
         console.log("保存大章列表数据", response)
         let resp = response.data;
         //判断是否成功
@@ -146,17 +149,19 @@ export default {
           $("#form-modal").modal("hide");
           //刷新一下
           _this.list(1);
-          Toast.success("保存成功！");
+          Toast.success("保存成功！！！")
         }
       })
     },
     //传入page参数
     list(page) {
       let _this = this;
+      Loading.show();
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list", {
         page: page,
         size: _this.$refs.pagination.size,
       }).then((response) => {
+        Loading.hide();
         console.log("查询大章列表数据", response)
         let resp = response.data;
         _this.chapterList = resp.content.list;
@@ -176,14 +181,16 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.value) {
+          Loading.show();
           _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
+            Loading.hide();
             console.log("删除大章列表数据", response)
             let resp = response.data;
             //判断是否成功
             if (resp.success) {
               //刷新一下
               _this.list(1);
-              Toast.success("删除成功!!");
+              Toast.success("删除成功！");
             }
           })
         }
