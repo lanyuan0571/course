@@ -81,7 +81,7 @@
       </tr>
       </tbody>
     </table>
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -109,7 +109,7 @@
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button v-on:click="saveChapter()" type="button" class="btn btn-primary">保存</button>
           </div>
-        </div><!-- /.modal-content -->
+        </div><!-- /#form-modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
@@ -138,13 +138,20 @@ export default {
   methods: {
     add() {
       let _this = this;
-      $(".modal").modal("show");
+      $("#form-modal").modal("show");
     },
     saveChapter(page) {
       let _this = this;
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/saveChapter",
           _this.chapter).then((response) => {
         console.log("保存大章列表数据", response)
+        let resp = response.data;
+        //判断是否成功
+        if (resp.success) {
+          $("#form-modal").modal("hide");
+          //刷新一下
+          _this.list(1);
+        }
       })
     },
     //传入page参数
@@ -155,9 +162,10 @@ export default {
         size: _this.$refs.pagination.size,
       }).then((response) => {
         console.log("查询大章列表数据", response)
-        _this.chapterList = response.data.list;
+        let resp = response.data;
+        _this.chapterList = resp.content.list;
         //传入总记录数，重新渲染组件
-        _this.$refs.pagination.render(page, response.data.total);
+        _this.$refs.pagination.render(page, resp.content.total);
       })
     }
   }

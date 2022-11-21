@@ -3,6 +3,7 @@ package com.course.business.controller.admin;
 import com.course.server.domain.Chapter;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
+import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +19,20 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @RequestMapping("/list")
-    public PageDto chapter(@RequestBody PageDto pageDto) {
+    public ResponseDto chapter(@RequestBody PageDto pageDto) {
 //        return chapterService.list();
+        ResponseDto responseDto = new ResponseDto();
         chapterService.list(pageDto);
-        return pageDto;
+        responseDto.setContent(pageDto);
+        return responseDto;
     }
 
     @RequestMapping("/saveChapter")
-    public ChapterDto saveChapter(@RequestBody ChapterDto chapterDto) {
+    public ResponseDto saveChapter(@RequestBody ChapterDto chapterDto) {
 //        return chapterService.list();
+        ResponseDto responseDto = new ResponseDto();
         chapterService.saveChapter(chapterDto);
-        return chapterDto;
+        responseDto.setContent(chapterDto);
+        return responseDto;
     }
 }
