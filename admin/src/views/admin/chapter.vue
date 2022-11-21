@@ -106,7 +106,6 @@
 <script>
 //引入分页组件
 import Pagination from "../../components/pagination";
-
 export default {
   components: {Pagination},
   name: 'business',
@@ -147,6 +146,7 @@ export default {
           $("#form-modal").modal("hide");
           //刷新一下
           _this.list(1);
+          Toast.success("保存成功！");
         }
       })
     },
@@ -183,11 +183,7 @@ export default {
             if (resp.success) {
               //刷新一下
               _this.list(1);
-              Swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-              )
+              Toast.success("删除成功!!");
             }
           })
         }
