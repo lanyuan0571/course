@@ -27,29 +27,18 @@
         <td>{{ chapter.courseId }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-success">
-              <i class="ace-icon fa fa-check bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-info">
+            <button v-on:click="editChapter(chapter)" class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-
-            <button class="btn btn-xs btn-danger">
+            <button v-on:click="deleteChapter(chapter.id)" class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
-
-            <button class="btn btn-xs btn-warning">
-              <i class="ace-icon fa fa-flag bigger-120"></i>
-            </button>
           </div>
-
           <div class="hidden-md hidden-lg">
             <div class="inline pos-rel">
               <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
                 <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
               </button>
-
               <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                 <li>
                   <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
@@ -58,7 +47,6 @@
                                     </span>
                   </a>
                 </li>
-
                 <li>
                   <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
                                     <span class="green">
@@ -87,7 +75,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">新增</h4>
+            <h4 class="modal-title">大章信息</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
@@ -136,8 +124,16 @@ export default {
     // this.$parent.activeSidebar("business-chapter-sidebar")
   },
   methods: {
+    /*编辑*/
+    editChapter(chapter) {
+      let _this = this;
+      _this.chapter = $.extend({}, chapter);
+      $("#form-modal").modal("show");
+    },
+    //新增
     add() {
       let _this = this;
+      _this.chapter = {};
       $("#form-modal").modal("show");
     },
     saveChapter(page) {
@@ -167,10 +163,36 @@ export default {
         //传入总记录数，重新渲染组件
         _this.$refs.pagination.render(page, resp.content.total);
       })
+    },
+    deleteChapter(id) {
+      let _this = this;
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
+            console.log("删除大章列表数据", response)
+            let resp = response.data;
+            //判断是否成功
+            if (resp.success) {
+              //刷新一下
+              _this.list(1);
+              Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+              )
+            }
+          })
+        }
+      })
     }
   }
-  // created: function () {
-  //   this.list();
-  // }
 }
 </script>

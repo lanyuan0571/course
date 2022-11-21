@@ -5,9 +5,7 @@ import com.course.server.dto.ChapterDto;
 import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,7 +16,7 @@ public class ChapterController {
     @Resource
     private ChapterService chapterService;
 
-    @RequestMapping("/list")
+    @PostMapping("/list")
     public ResponseDto chapter(@RequestBody PageDto pageDto) {
 //        return chapterService.list();
         ResponseDto responseDto = new ResponseDto();
@@ -27,12 +25,19 @@ public class ChapterController {
         return responseDto;
     }
 
-    @RequestMapping("/saveChapter")
+    @PostMapping("/saveChapter")
     public ResponseDto saveChapter(@RequestBody ChapterDto chapterDto) {
 //        return chapterService.list();
         ResponseDto responseDto = new ResponseDto();
         chapterService.saveChapter(chapterDto);
         responseDto.setContent(chapterDto);
+        return responseDto;
+    }
+
+    @DeleteMapping("/deleteChapter/{id}")
+    public ResponseDto deleteChapter(@PathVariable String id) {
+        ResponseDto responseDto = new ResponseDto();
+        chapterService.deleteChapter(id);
         return responseDto;
     }
 }
