@@ -155,6 +155,8 @@ export default {
           //刷新一下
           _this.list(1);
           Toast.success("保存成功！！！")
+        } else {
+          Toast.warning(resp.message);
         }
       })
     },
