@@ -147,7 +147,7 @@ export default {
       _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/saveChapter",
           _this.chapter).then((response) => {
         Loading.hide();
-        console.log("保存大章列表数据", response)
+        // console.log("保存大章列表数据", response)
         let resp = response.data;
         //判断是否成功
         if (resp.success) {
@@ -169,7 +169,7 @@ export default {
         size: _this.$refs.pagination.size,
       }).then((response) => {
         Loading.hide();
-        console.log("查询大章列表数据", response)
+        // console.log("查询大章列表数据", response)
         let resp = response.data;
         _this.chapterList = resp.content.list;
         //传入总记录数，重新渲染组件
@@ -206,7 +206,7 @@ export default {
         Loading.show();
         _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
           Loading.hide();
-          console.log("删除大章列表数据", response);
+          // console.log("删除大章列表数据", response);
           let resp = response.data;
           if (resp.success) {
             _this.list(1);
