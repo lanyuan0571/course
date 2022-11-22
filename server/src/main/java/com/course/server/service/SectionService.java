@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,6 +51,9 @@ public class SectionService {
      * 新增
      */
     private void insert(Section section) {
+        Date now = new Date();
+        section.setCreatedAt(now);
+        section.setUpdatedAt(now);
         section.setId(UuidUtil.getShortUuid());
         sectionMapper.insert(section);
     }
@@ -58,6 +62,7 @@ public class SectionService {
      * 更新
      */
     private void update(Section section) {
+        section.setUpdatedAt(new Date());
         sectionMapper.updateByPrimaryKey(section);
     }
 

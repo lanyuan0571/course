@@ -25,8 +25,6 @@
         <th>时长</th>
         <th>收费</th>
         <th>顺序</th>
-        <th>创建时间</th>
-        <th>修改时间</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -39,10 +37,8 @@
         <td>{{section.chapterId}}</td>
         <td>{{section.video}}</td>
         <td>{{section.time}}</td>
-        <td>{{section.charge}}</td>
+        <td>{{CHARGE | optionKV(section.charge)}}</td>
         <td>{{section.sort}}</td>
-        <td>{{section.createdAt}}</td>
-        <td>{{section.updatedAt}}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button v-on:click="edit(section)" class="btn btn-xs btn-info">
@@ -66,12 +62,6 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">ID</label>
-                <div class="col-sm-10">
-                  <input v-model="section.id" class="form-control">
-                </div>
-              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">标题</label>
                 <div class="col-sm-10">
@@ -105,25 +95,15 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
-                  <input v-model="section.charge" class="form-control">
+                  <select v-model="section.charge" class="form-control">
+                    <option v-for="o in CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">顺序</label>
                 <div class="col-sm-10">
                   <input v-model="section.sort" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">创建时间</label>
-                <div class="col-sm-10">
-                  <input v-model="section.createdAt" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">修改时间</label>
-                <div class="col-sm-10">
-                  <input v-model="section.updatedAt" class="form-control">
                 </div>
               </div>
             </form>
@@ -146,7 +126,8 @@ export default {
   data: function() {
     return {
       section: {},
-      sections: []
+      sections: [],
+      CHARGE: [{key:"C", value:"收费"},{key:"F", value:"免费"}],
     }
   },
   mounted: function() {
@@ -155,6 +136,7 @@ export default {
     _this.list(1);
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-section-sidebar");
+
   },
   methods: {
     /**
@@ -181,7 +163,7 @@ export default {
     list(page) {
       let _this = this;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/section/list", {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list', {
         page: page,
         size: _this.$refs.pagination.size,
       }).then((response)=>{
@@ -198,6 +180,7 @@ export default {
      */
     save(page) {
       let _this = this;
+
       // 保存校验
       if (1 != 1
           || !Validator.require(_this.section.title, "标题")
@@ -206,10 +189,10 @@ export default {
       ) {
         return;
       }
+
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/section/save", _this.section).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
         Loading.hide();
-        console.log("保存大章列表数据", response);
         let resp = response.data;
         if (resp.success) {
           $("#form-modal").modal("hide");
