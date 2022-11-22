@@ -144,7 +144,7 @@ export default {
         return;
       }
       Loading.show();
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/saveChapter",
+      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/chapter/saveChapter",
           _this.chapter).then((response) => {
         Loading.hide();
         // console.log("保存大章列表数据", response)
@@ -164,7 +164,7 @@ export default {
     list(page) {
       let _this = this;
       Loading.show();
-      _this.$ajax.post("http://127.0.0.1:9000/business/admin/chapter/list", {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/chapter/list", {
         page: page,
         size: _this.$refs.pagination.size,
       }).then((response) => {
@@ -178,33 +178,9 @@ export default {
     },
     deleteChapter(id) {
       let _this = this;
-      // Swal.fire({
-      //   title: 'Are you sure?',
-      //   text: "You won't be able to revert this!",
-      //   icon: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Yes, delete it!'
-      // }).then((result) => {
-      //   if (result.value) {
-      //     Loading.show();
-      //     _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
-      //       Loading.hide();
-      //       console.log("删除大章列表数据", response)
-      //       let resp = response.data;
-      //       //判断是否成功
-      //       if (resp.success) {
-      //         //刷新一下
-      //         _this.list(1);
-      //         Toast.success("删除成功！");
-      //       }
-      //     })
-      //   }
-      // })
       Confirm.show("删除大章后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete("http://127.0.0.1:9000/business/admin/chapter/deleteChapter/" + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + "/business/admin/chapter/deleteChapter/" + id).then((response) => {
           Loading.hide();
           // console.log("删除大章列表数据", response);
           let resp = response.data;
