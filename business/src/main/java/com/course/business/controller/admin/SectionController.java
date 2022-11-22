@@ -38,7 +38,7 @@ public class SectionController {
     @PostMapping("/save")
     public ResponseDto save(@RequestBody SectionDto sectionDto) {
         // 保存校验
-
+//        System.out.println(sectionDto.getId());
         ResponseDto responseDto = new ResponseDto();
         sectionService.save(sectionDto);
         responseDto.setContent(sectionDto);

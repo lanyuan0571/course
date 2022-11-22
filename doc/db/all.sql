@@ -73,3 +73,7 @@ alter table `section`
 
 insert into `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
 values ('00000001', '测试小节01', '00000001', '00000000', '', 500, 'f', 1, now(), now());
+insert into `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
+values ('00000002', '测试小节02', '00000002', '00000000', '', 500, 'f', 1, now(), now());
+insert into `section` (id, title, course_id, chapter_id, video, time, charge, sort, created_at, updated_at)
+values ('00000003', '测试小节02', '00000003', '00000000', '', 500, 'f', 1, now(), now());
