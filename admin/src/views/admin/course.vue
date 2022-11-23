@@ -43,6 +43,9 @@
               <span class="badge badge-info">时长：{{ course.time }}</span>
             </p>
             <p>
+              <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
+                大章
+              </button>&nbsp;
               <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
                 编辑
               </button>&nbsp;
@@ -118,7 +121,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">概述</label>
                 <div class="col-sm-10">
-<!--                  <input v-model="course.summary" class="form-control">-->
+                  <!--                  <input v-model="course.summary" class="form-control">-->
                   <textarea v-model="course.summary" class="form-control"></textarea>
                 </div>
               </div>
@@ -262,7 +265,6 @@ export default {
       ) {
         return;
       }
-
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course).then((response) => {
         Loading.hide();
@@ -276,7 +278,6 @@ export default {
         }
       })
     },
-
     /**
      * 点击【删除】
      */
@@ -293,6 +294,14 @@ export default {
           }
         })
       });
+    },
+    /**
+     * 点击【大章】
+     */
+    toChapter(course) {
+      let _this = this;
+      SessionStorage.set("course", course);
+      _this.$router.push("/business/chapter");
     }
   }
 }

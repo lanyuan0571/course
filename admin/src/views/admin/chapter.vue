@@ -1,6 +1,12 @@
 <template>
   <div>
+    <h3>{{ course.name }}</h3>
     <p>
+      <router-link to="/business/course" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-arrow-left"></i>
+        返回课程
+      </router-link>
+      &nbsp;
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh blue"></i>
         刷新一下
@@ -114,12 +120,19 @@ export default {
     return {
       chapterList: [],
       chapter: {},
+      course: {},
     }
   },
   mounted: function () {
     let _this = this;
     //每次加载5条数据
     _this.$refs.pagination.size = 5
+    //跳转到课程管理页面
+    let course = SessionStorage.get("course") || {};
+    if (Tool.isEmpty(course)) {
+      _this.$router.push("/welcome");
+    }
+    _this.course = course;
     _this.list(1);
     // this.$parent.activeSidebar("business-chapter-sidebar")
   },
