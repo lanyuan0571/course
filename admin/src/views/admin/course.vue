@@ -212,7 +212,6 @@ export default {
     _this.list(1);
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-course-sidebar");
-
   },
   methods: {
     /**
@@ -223,7 +222,6 @@ export default {
       _this.course = {};
       $("#form-modal").modal("show");
     },
-
     /**
      * 点击【编辑】
      */
@@ -232,7 +230,6 @@ export default {
       _this.course = $.extend({}, course);
       $("#form-modal").modal("show");
     },
-
     /**
      * 列表查询
      */

@@ -1,5 +1,13 @@
 <template>
   <div>
+    <h4 class="lighter">
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
+      :
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/chapter" class="pink"> {{ chapter.name }}</router-link>
+    </h4>
+    <hr>
     <p>
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-edit"></i>
@@ -19,8 +27,8 @@
       <tr>
         <th>ID</th>
         <th>标题</th>
-        <th>课程</th>
-        <th>章</th>
+        <!--        <th>课程</th>-->
+        <!--        <th>章</th>-->
         <th>视频</th>
         <th>时长</th>
         <th>收费</th>
@@ -33,8 +41,8 @@
       <tr v-for="section in sections">
         <td>{{ section.id }}</td>
         <td>{{ section.title }}</td>
-        <td>{{ section.courseId }}</td>
-        <td>{{ section.chapterId }}</td>
+        <!--        <td>{{ section.courseId }}</td>-->
+        <!--        <td>{{ section.chapterId }}</td>-->
         <td>{{ section.video }}</td>
         <td>{{ section.time }}</td>
         <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
@@ -59,7 +67,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">表单</h4>
+            <h4 class="modal-title">小节信息</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
@@ -72,13 +80,13 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <input v-model="section.courseId" class="form-control">
+                  <p class="form-control-static">{{ course.name }}</p>
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">章</label>
+                <label class="col-sm-2 control-label">大章</label>
                 <div class="col-sm-10">
-                  <input v-model="section.chapterId" class="form-control">
+                  <p class="form-control-static">{{ chapter.name }}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -121,7 +129,6 @@
 
 <script>
 import Pagination from "../../components/pagination";
-
 export default {
   components: {Pagination},
   name: "business-section",
@@ -131,15 +138,24 @@ export default {
       sections: [],
       // CHARGE: [{key:"C", value:"收费"},{key:"F", value:"免费"}],
       SECTION_CHARGE: SECTION_CHARGE,
+      course: {},
+      chapter: {},
     }
   },
   mounted: function () {
     let _this = this;
     _this.$refs.pagination.size = 5;
+    //关联大章管理和课程管理
+    let course = SessionStorage.get("course") || {};
+    let chapter = SessionStorage.get("chapter") || {};
+    if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
+      _this.$router.push("/welcome");
+    }
+    _this.course = course;
+    _this.chapter = chapter;
     _this.list(1);
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-section-sidebar");
-
   },
   methods: {
     /**
@@ -150,7 +166,6 @@ export default {
       _this.section = {};
       $("#form-modal").modal("show");
     },
-
     /**
      * 点击【编辑】
      */
@@ -159,7 +174,6 @@ export default {
       _this.section = $.extend({}, section);
       $("#form-modal").modal("show");
     },
-
     /**
      * 列表查询
      */
@@ -169,6 +183,8 @@ export default {
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/list', {
         page: page,
         size: _this.$refs.pagination.size,
+        courseId: _this.course.id,
+        chapterId: _this.chapter.id
       }).then((response) => {
         Loading.hide();
         let resp = response.data;
@@ -177,13 +193,11 @@ export default {
 
       })
     },
-
     /**
      * 点击【保存】
      */
     save(page) {
       let _this = this;
-
       // 保存校验
       if (1 != 1
           || !Validator.require(_this.section.title, "标题")
@@ -192,7 +206,8 @@ export default {
       ) {
         return;
       }
-
+      _this.section.courseId = _this.course.id;
+      _this.section.chapterId = _this.chapter.id;
       Loading.show();
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response) => {
         Loading.hide();
@@ -206,7 +221,6 @@ export default {
         }
       })
     },
-
     /**
      * 点击【删除】
      */
