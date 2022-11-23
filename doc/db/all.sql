@@ -99,3 +99,5 @@ create table course
 
 insert into course (id, name, summary, time, price, image, level, charge, status, enroll, sort, created_at, updated_at)
 values ('00000001', '测试课程01', '这是一门测试课程', 7200, 19.9, '', 1, 'C', 'P', 100, 0, now(), now());
+insert into course (id, name, summary, time, price, image, level, charge, status, enroll, sort, created_at, updated_at)
+values ('00000002', '测试课程02', '这是一门测试课程', 7200, 29.9, '', 2, 'C', 'P', 100, 0, now(), now());

@@ -2,7 +2,7 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
+      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
     </h4>
     <hr>
     <p>
@@ -11,39 +11,41 @@
         返回课程
       </router-link>
       &nbsp;
-      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-refresh blue"></i>
-        刷新一下
-      </button>
-      &nbsp;
       <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit black"></i>
+        <i class="ace-icon fa fa-edit"></i>
         新增
       </button>
+      &nbsp;
+      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-refresh"></i>
+        刷新
+      </button>
     </p>
+
+    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
+
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
         <th>ID</th>
         <th>名称</th>
-        <!--        <th>课程ID</th>-->
         <th>操作</th>
       </tr>
       </thead>
+
       <tbody>
       <tr v-for="chapter in chapters">
-        <td>{{ chapter.id }}</td>
-        <td>{{ chapter.name }}</td>
-        <td>{{ chapter.courseId }}</td>
+        <td>{{chapter.id}}</td>
+        <td>{{chapter.name}}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button v-on:click="toSection(chapter)" class="btn btn-white btn-xs btn-info btn-round">
               小节
             </button>&nbsp;
-            <button v-on:click="editChapter(chapter)" class="btn btn-white btn-xs btn-info btn-round">
+            <button v-on:click="edit(chapter)" class="btn btn-white btn-xs btn-info btn-round">
               编辑
             </button>&nbsp;
-            <button v-on:click="deleteChapter(chapter.id)" class="btn btn-white btn-xs btn-warning btn-round">
+            <button v-on:click="del(chapter.id)" class="btn btn-white btn-xs btn-warning btn-round">
               删除
             </button>
           </div>
@@ -51,12 +53,13 @@
       </tr>
       </tbody>
     </table>
+
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">大章信息</h4>
+            <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
@@ -69,64 +72,85 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{ course.name }}</p>
+                  <p class="form-control-static">{{course.name}}</p>
                 </div>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button v-on:click="saveChapter()" type="button" class="btn btn-primary">保存</button>
+            <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
           </div>
-        </div><!-- /#form-modal-content -->
+        </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
   </div>
 </template>
+
 <script>
-//引入分页组件
 import Pagination from "../../components/pagination";
 export default {
   components: {Pagination},
-  name: 'business',
-  data: function () {
+  name: "chapter",
+  data: function() {
     return {
-      chapters: [],
       chapter: {},
+      chapters: [],
       course: {},
     }
   },
-  mounted: function () {
+  mounted: function() {
     let _this = this;
-    //每次加载5条数据
-    _this.$refs.pagination.size = 5
-    //跳转到课程管理页面
+    _this.$refs.pagination.size = 5;
     let course = SessionStorage.get("course") || {};
     if (Tool.isEmpty(course)) {
       _this.$router.push("/welcome");
     }
     _this.course = course;
     _this.list(1);
-    // this.$parent.activeSidebar("business-chapter-sidebar")
+    // sidebar激活样式方法一
+    // this.$parent.activeSidebar("business-chapter-sidebar");
+
   },
   methods: {
-    /*编辑*/
-    editChapter(chapter) {
-      let _this = this;
-      _this.chapter = $.extend({}, chapter);
-      $("#form-modal").modal("show");
-    },
-    //新增
+    /**
+     * 点击【新增】
+     */
     add() {
       let _this = this;
       _this.chapter = {};
       $("#form-modal").modal("show");
     },
-    /*
-    保存大章
-    * */
-    saveChapter(page) {
+    /**
+     * 点击【编辑】
+     */
+    edit(chapter) {
+      let _this = this;
+      _this.chapter = $.extend({}, chapter);
+      $("#form-modal").modal("show");
+    },
+    /**
+     * 列表查询
+     */
+    list(page) {
+      let _this = this;
+      Loading.show();
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/list', {
+        page: page,
+        size: _this.$refs.pagination.size,
+        courseId: _this.course.id
+      }).then((response)=>{
+        Loading.hide();
+        let resp = response.data;
+        _this.chapters = resp.content.list;
+        _this.$refs.pagination.render(page, resp.content.total);
+
+      })
+    },
+    /**
+     * 点击【保存】
+     */
+    save(page) {
       let _this = this;
       // 保存校验
       if (!Validator.require(_this.chapter.name, "名称")
@@ -135,50 +159,28 @@ export default {
       }
       _this.chapter.courseId = _this.course.id;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/chapter/saveChapter",
-          _this.chapter).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/save', _this.chapter).then((response)=>{
         Loading.hide();
-        // console.log("保存大章列表数据", response)
         let resp = response.data;
-        //判断是否成功
         if (resp.success) {
           $("#form-modal").modal("hide");
-          //刷新一下
           _this.list(1);
-          Toast.success("保存成功！！！")
+          Toast.success("保存成功！");
         } else {
-          Toast.warning(resp.message);
+          Toast.warning(resp.message)
         }
       })
     },
-    //传入page参数
-    list(page) {
-      let _this = this;
-      Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + "/business/admin/chapter/list", {
-        page: page,
-        size: _this.$refs.pagination.size,
-        courseId: _this.course.id
-      }).then((response) => {
-        Loading.hide();
-        // console.log("查询大章列表数据", response)
-        let resp = response.data;
-        // console.log("大章ID:",resp.data.chapter.id)
-        _this.chapters = resp.content.list;
-        //传入总记录数，重新渲染组件
-        _this.$refs.pagination.render(page, resp.content.total);
-      })
-    },
-    /*
-    点击删除
-    * */
-    deleteChapter(id) {
+
+    /**
+     * 点击【删除】
+     */
+    del(id) {
       let _this = this;
       Confirm.show("删除大章后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + "/business/admin/chapter/deleteChapter/" + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/chapter/delete/' + id).then((response)=>{
           Loading.hide();
-          // console.log("删除大章列表数据", response);
           let resp = response.data;
           if (resp.success) {
             _this.list(1);
@@ -187,6 +189,7 @@ export default {
         })
       });
     },
+
     /**
      * 点击【小节】
      */

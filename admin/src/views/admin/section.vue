@@ -2,10 +2,9 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
-      :
+      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>：
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/chapter" class="pink"> {{ chapter.name }}</router-link>
+      <router-link to="/business/chapter" class="pink"> {{chapter.name}} </router-link>
     </h4>
     <hr>
     <p>
@@ -27,8 +26,6 @@
       <tr>
         <th>ID</th>
         <th>标题</th>
-        <!--        <th>课程</th>-->
-        <!--        <th>章</th>-->
         <th>视频</th>
         <th>时长</th>
         <th>收费</th>
@@ -39,14 +36,12 @@
 
       <tbody>
       <tr v-for="section in sections">
-        <td>{{ section.id }}</td>
-        <td>{{ section.title }}</td>
-        <!--        <td>{{ section.courseId }}</td>-->
-        <!--        <td>{{ section.chapterId }}</td>-->
-        <td>{{ section.video }}</td>
-        <td>{{ section.time }}</td>
-        <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
-        <td>{{ section.sort }}</td>
+        <td>{{section.id}}</td>
+        <td>{{section.title}}</td>
+        <td>{{section.video}}</td>
+        <td>{{section.time}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+        <td>{{section.sort}}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button v-on:click="edit(section)" class="btn btn-xs btn-info">
@@ -65,9 +60,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">小节信息</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
@@ -80,13 +74,13 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{ course.name }}</p>
+                  <p class="form-control-static">{{course.name}}</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">大章</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{ chapter.name }}</p>
+                  <p class="form-control-static">{{chapter.name}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -105,7 +99,7 @@
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
                   <select v-model="section.charge" class="form-control">
-                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{ o.value }}</option>
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
                   </select>
                 </div>
               </div>
@@ -132,20 +126,19 @@ import Pagination from "../../components/pagination";
 export default {
   components: {Pagination},
   name: "business-section",
-  data: function () {
+  data: function() {
     return {
       section: {},
       sections: [],
-      // CHARGE: [{key:"C", value:"收费"},{key:"F", value:"免费"}],
       SECTION_CHARGE: SECTION_CHARGE,
       course: {},
       chapter: {},
     }
   },
-  mounted: function () {
+  mounted: function() {
     let _this = this;
     _this.$refs.pagination.size = 5;
-    //关联大章管理和课程管理
+    //session会话关联大章和课程关联
     let course = SessionStorage.get("course") || {};
     let chapter = SessionStorage.get("chapter") || {};
     if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
@@ -156,6 +149,7 @@ export default {
     _this.list(1);
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-section-sidebar");
+
   },
   methods: {
     /**
@@ -166,6 +160,7 @@ export default {
       _this.section = {};
       $("#form-modal").modal("show");
     },
+
     /**
      * 点击【编辑】
      */
@@ -174,6 +169,7 @@ export default {
       _this.section = $.extend({}, section);
       $("#form-modal").modal("show");
     },
+
     /**
      * 列表查询
      */
@@ -185,14 +181,14 @@ export default {
         size: _this.$refs.pagination.size,
         courseId: _this.course.id,
         chapterId: _this.chapter.id
-      }).then((response) => {
+      }).then((response)=>{
         Loading.hide();
         let resp = response.data;
         _this.sections = resp.content.list;
         _this.$refs.pagination.render(page, resp.content.total);
-
       })
     },
+
     /**
      * 点击【保存】
      */
@@ -209,7 +205,7 @@ export default {
       _this.section.courseId = _this.course.id;
       _this.section.chapterId = _this.chapter.id;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -221,6 +217,7 @@ export default {
         }
       })
     },
+
     /**
      * 点击【删除】
      */
@@ -228,7 +225,7 @@ export default {
       let _this = this;
       Confirm.show("删除小节后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {

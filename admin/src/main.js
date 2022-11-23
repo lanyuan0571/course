@@ -5,6 +5,7 @@ import axios from "axios";
 import filter from "./filter/filter";
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios;
+// Vue.prototype.axios = axios;
 /*axios拦截器
 * */
 axios.interceptors.request.use(function (config) {
