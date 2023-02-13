@@ -551,18 +551,10 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-              <li class="active" id="business-chapter-sidebar">
-                <router-link to="/business/chapter">
+              <li class="active" id="business-category-sidebar">
+                <router-link to="/business/category">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  大章管理
-                </router-link>
-                <b class="arrow"></b>
-              </li>
-
-              <li class="active" id="business-section-sidebar">
-                <router-link to="/business/section">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  小节管理
+                  分类管理
                 </router-link>
                 <b class="arrow"></b>
               </li>
@@ -573,10 +565,23 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
+              <li class="active" id="business-chapter-sidebar">
+                <router-link to="/business/chapter">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  大章管理
+                </router-link>
+                <b class="arrow"></b>
+              </li>
+              <li class="active" id="business-section-sidebar">
+                <router-link to="/business/section">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  小节管理
+                </router-link>
+                <b class="arrow"></b>
+              </li>
             </ul>
           </li>
         </ul><!-- /.nav-list -->
-
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
           <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
              data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
