@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="addOne()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增level1
           </button>
           &nbsp;
           <button v-on:click="all()" class="btn btn-white btn-default btn-round">
@@ -25,10 +25,11 @@
           </thead>
 
           <tbody>
-          <tr v-for="category in level1" v-on:click="onClickLevel1(category)" v-bind:class="{'active' : category.id === active.id}">
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
-            <td>{{category.sort}}</td>
+          <tr v-for="category in level1" v-on:click="onClickLevel1(category)"
+              v-bind:class="{'active' : category.id === active.id}">
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.sort }}</td>
             <td>
               <div class="hidden-sm hidden-xs btn-group">
                 <button v-on:click="edit(category)" class="btn btn-xs btn-info">
@@ -45,9 +46,9 @@
       </div>
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="addTwo()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增level2
           </button>
         </p>
 
@@ -63,9 +64,9 @@
 
           <tbody>
           <tr v-for="category in level2">
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
-            <td>{{category.sort}}</td>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.sort }}</td>
             <td>
               <div class="hidden-sm hidden-xs btn-group">
                 <button v-on:click="edit(category)" class="btn btn-xs btn-info">
@@ -87,15 +88,16 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label">父id</label>
+                <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
-                  <input v-model="category.parent" class="form-control">
+                  <p class="form-control-static">{{active.name || "无"}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -125,7 +127,7 @@
 <script>
 export default {
   name: "business-category",
-  data: function() {
+  data: function () {
     return {
       category: {},
       categorys: [],
@@ -134,7 +136,7 @@ export default {
       active: {},
     }
   },
-  mounted: function() {
+  mounted: function () {
     let _this = this;
     _this.all();
     // sidebar激活样式方法一
@@ -143,12 +145,30 @@ export default {
   },
   methods: {
     /**
-     * 点击【新增】
+     * 点击【新增一级】
      */
-    add() {
+    addOne() {
       let _this = this;
-      _this.category = {};
+      _this.active = {};
+      _this.level2 = [];
+      _this.category = {
+        parent: "00000000"
+      };
       $("#form-modal").modal("show");
+    },
+    /**
+     * 点击【新增二级】
+     */
+    addTwo() {
+      let _this = this;
+      if (Tool.isEmpty(_this.active)) {
+        Toast.warning("请先点击一级分类");
+        return;
+      }
+      _this.category = {
+        parent: _this.active.id
+      };
+      $(".modal").modal("show");
     },
 
     /**
@@ -166,7 +186,7 @@ export default {
     all() {
       let _this = this;
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/all').then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/all').then((response) => {
         Loading.hide();
         let resp = response.data;
         _this.categorys = resp.content;
@@ -188,6 +208,10 @@ export default {
             }
           }
         }
+        _this.level2=[];
+        setTimeout(function (){
+          $("tr.active").trigger("click");
+        },100);
       })
     },
 
@@ -207,7 +231,7 @@ export default {
       }
 
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/save', _this.category).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/category/save', _this.category).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -227,7 +251,7 @@ export default {
       let _this = this;
       Confirm.show("删除分类后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + id).then((response)=>{
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
