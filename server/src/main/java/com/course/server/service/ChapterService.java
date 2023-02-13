@@ -6,13 +6,11 @@ import com.course.server.domain.Test;
 import com.course.server.domain.TestExample;
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.ChapterPageDto;
-import com.course.server.dto.PageDto;
 import com.course.server.mapper.ChapterMapper;
 import com.course.server.utils.CopyUtil;
 import com.course.server.utils.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -50,7 +48,7 @@ public class ChapterService {
 //            chapterDtoList.add(chapterDto);
 //        }
 //        pageDto.setList(chapterList);
-////        return chapterDtoList;
+//       return chapterDtoList;
     }
 
     //新增自增uuid

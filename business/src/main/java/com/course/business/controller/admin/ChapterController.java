@@ -1,9 +1,8 @@
 package com.course.business.controller.admin;
 
-import com.course.server.domain.Chapter;
+
 import com.course.server.dto.ChapterDto;
 import com.course.server.dto.ChapterPageDto;
-import com.course.server.dto.PageDto;
 import com.course.server.dto.ResponseDto;
 import com.course.server.service.ChapterService;
 import com.course.server.utils.ValidatorUtil;
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/admin/chapter")
@@ -23,8 +22,7 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @PostMapping("/list")
-    public ResponseDto chapter(@RequestBody ChapterPageDto chapterPageDto) {
-//        return chapterService.list();
+    public ResponseDto list(@RequestBody ChapterPageDto chapterPageDto) {
         ResponseDto responseDto = new ResponseDto();
         ValidatorUtil.require(chapterPageDto.getCourseId(), "课程ID");
         chapterService.list(chapterPageDto);
@@ -32,7 +30,7 @@ public class ChapterController {
         return responseDto;
     }
 
-    @PostMapping("/saveChapter")
+    @PostMapping("/save")
     public ResponseDto saveChapter(@RequestBody ChapterDto chapterDto) {
         LOG.info("chapterDto:{}", chapterDto);
 //        return chapterService.list();
@@ -47,7 +45,7 @@ public class ChapterController {
         return responseDto;
     }
 
-    @DeleteMapping("/deleteChapter/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseDto deleteChapter(@PathVariable String id) {
         ResponseDto responseDto = new ResponseDto();
         chapterService.deleteChapter(id);

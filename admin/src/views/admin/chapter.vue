@@ -2,7 +2,7 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>
+      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
     </h4>
     <hr>
     <p>
@@ -35,8 +35,8 @@
 
       <tbody>
       <tr v-for="chapter in chapters">
-        <td>{{chapter.id}}</td>
-        <td>{{chapter.name}}</td>
+        <td>{{ chapter.id }}</td>
+        <td>{{ chapter.name }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button v-on:click="toSection(chapter)" class="btn btn-white btn-xs btn-info btn-round">
@@ -58,7 +58,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
@@ -72,7 +73,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{course.name}}</p>
+                  <p class="form-control-static">{{ course.name }}</p>
                 </div>
               </div>
             </form>
@@ -89,17 +90,18 @@
 
 <script>
 import Pagination from "../../components/pagination";
+
 export default {
   components: {Pagination},
   name: "chapter",
-  data: function() {
+  data: function () {
     return {
       chapter: {},
       chapters: [],
       course: {},
     }
   },
-  mounted: function() {
+  mounted: function () {
     let _this = this;
     _this.$refs.pagination.size = 5;
     let course = SessionStorage.get("course") || {};
@@ -109,7 +111,7 @@ export default {
     _this.course = course;
     _this.list(1);
     // sidebar激活样式方法一
-    // this.$parent.activeSidebar("business-chapter-sidebar");
+    this.$parent.activeSidebar("business-course-sidebar");
 
   },
   methods: {
@@ -121,6 +123,7 @@ export default {
       _this.chapter = {};
       $("#form-modal").modal("show");
     },
+
     /**
      * 点击【编辑】
      */
@@ -129,6 +132,7 @@ export default {
       _this.chapter = $.extend({}, chapter);
       $("#form-modal").modal("show");
     },
+
     /**
      * 列表查询
      */
@@ -139,14 +143,14 @@ export default {
         page: page,
         size: _this.$refs.pagination.size,
         courseId: _this.course.id
-      }).then((response)=>{
+      }).then((response) => {
         Loading.hide();
         let resp = response.data;
         _this.chapters = resp.content.list;
         _this.$refs.pagination.render(page, resp.content.total);
-
       })
     },
+
     /**
      * 点击【保存】
      */
@@ -158,8 +162,9 @@ export default {
         return;
       }
       _this.chapter.courseId = _this.course.id;
+
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/save', _this.chapter).then((response)=>{
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/save', _this.chapter).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -179,7 +184,7 @@ export default {
       let _this = this;
       Confirm.show("删除大章后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/chapter/delete/' + id).then((response)=>{
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/chapter/delete/' + id).then((response) => {
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
