@@ -4,6 +4,7 @@ import com.course.server.domain.Course;
 import com.course.server.domain.CourseExample;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
+import com.course.server.mapper.CourseCategoryMapper;
 import com.course.server.mapper.CourseMapper;
 import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.utils.CopyUtil;
@@ -26,6 +27,8 @@ public class CourseService {
     private CourseMapper courseMapper;
     @Resource
     private MyCourseMapper myCourseMapper;
+    @Resource
+    private CourseCategoryService courseCategoryService;
 
     /**
      * 列表查询
@@ -50,6 +53,8 @@ public class CourseService {
         } else {
             this.update(course);
         }
+        // 批量保存课程分类
+        courseCategoryService.saveBatch(courseDto.getId(), courseDto.getCategorys());
     }
 
     /**
@@ -77,8 +82,10 @@ public class CourseService {
     public void delete(String id) {
         courseMapper.deleteByPrimaryKey(id);
     }
+
     /**
      * 更新课程时长
+     *
      * @param courseId
      * @return
      */
