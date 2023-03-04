@@ -15,6 +15,7 @@
     <result column="sort" jdbcType="INTEGER" property="sort" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="teacher_id" jdbcType="CHAR" property="teacherId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, summary, `time`, price, image, `level`, charge, `status`, enroll, sort, 
-    created_at, updated_at
+    id, name, summary, time, price, image, level, charge, status, enroll, sort, created_at,
+    updated_at, teacher_id
   </sql>
   <select id="selectByExample" parameterType="com.course.server.domain.CourseExample" resultMap="BaseResultMap">
     select
@@ -93,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from course
     where id = #{id,jdbcType=CHAR}
@@ -109,16 +110,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.course.server.domain.Course">
-    insert into course (id, `name`, summary, 
-      `time`, price, image, 
-      `level`, charge, `status`, enroll, 
-      sort, created_at, updated_at
-      )
-    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
-      #{time,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR}, 
-      #{level,jdbcType=CHAR}, #{charge,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{enroll,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
-      )
+    insert into course (id, name, summary,
+                        time, price, image,
+                        level, charge, status, enroll,
+                        sort, created_at, updated_at,
+                        teacher_id)
+    values (#{id,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR},
+            #{time,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{image,jdbcType=VARCHAR},
+            #{level,jdbcType=CHAR}, #{charge,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{enroll,jdbcType=INTEGER},
+            #{sort,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
+            #{teacherId,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.course.server.domain.Course">
     insert into course
@@ -127,13 +128,13 @@
         id,
       </if>
       <if test="name != null">
-        `name`,
+        name,
       </if>
       <if test="summary != null">
         summary,
       </if>
       <if test="time != null">
-        `time`,
+        time,
       </if>
       <if test="price != null">
         price,
@@ -142,13 +143,13 @@
         image,
       </if>
       <if test="level != null">
-        `level`,
+        level,
       </if>
       <if test="charge != null">
         charge,
       </if>
       <if test="status != null">
-        `status`,
+        status,
       </if>
       <if test="enroll != null">
         enroll,
@@ -161,6 +162,9 @@
       </if>
       <if test="updatedAt != null">
         updated_at,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -203,6 +207,9 @@
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.course.server.domain.CourseExample" resultType="java.lang.Long">
@@ -218,13 +225,13 @@
         id = #{record.id,jdbcType=CHAR},
       </if>
       <if test="record.name != null">
-        `name` = #{record.name,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.summary != null">
         summary = #{record.summary,jdbcType=VARCHAR},
       </if>
       <if test="record.time != null">
-        `time` = #{record.time,jdbcType=INTEGER},
+        time = #{record.time,jdbcType=INTEGER},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -233,13 +240,13 @@
         image = #{record.image,jdbcType=VARCHAR},
       </if>
       <if test="record.level != null">
-        `level` = #{record.level,jdbcType=CHAR},
+        level = #{record.level,jdbcType=CHAR},
       </if>
       <if test="record.charge != null">
         charge = #{record.charge,jdbcType=CHAR},
       </if>
       <if test="record.status != null">
-        `status` = #{record.status,jdbcType=CHAR},
+        status = #{record.status,jdbcType=CHAR},
       </if>
       <if test="record.enroll != null">
         enroll = #{record.enroll,jdbcType=INTEGER},
@@ -253,6 +260,9 @@
       <if test="record.updatedAt != null">
         updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.teacherId != null">
+        teacher_id = #{record.teacherId,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,18 +271,19 @@
   <update id="updateByExample" parameterType="map">
     update course
     set id = #{record.id,jdbcType=CHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      summary = #{record.summary,jdbcType=VARCHAR},
-      `time` = #{record.time,jdbcType=INTEGER},
-      price = #{record.price,jdbcType=DECIMAL},
-      image = #{record.image,jdbcType=VARCHAR},
-      `level` = #{record.level,jdbcType=CHAR},
-      charge = #{record.charge,jdbcType=CHAR},
-      `status` = #{record.status,jdbcType=CHAR},
-      enroll = #{record.enroll,jdbcType=INTEGER},
-      sort = #{record.sort,jdbcType=INTEGER},
-      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}
+    name = #{record.name,jdbcType=VARCHAR},
+    summary = #{record.summary,jdbcType=VARCHAR},
+    time = #{record.time,jdbcType=INTEGER},
+    price = #{record.price,jdbcType=DECIMAL},
+    image = #{record.image,jdbcType=VARCHAR},
+    level = #{record.level,jdbcType=CHAR},
+    charge = #{record.charge,jdbcType=CHAR},
+    status = #{record.status,jdbcType=CHAR},
+    enroll = #{record.enroll,jdbcType=INTEGER},
+    sort = #{record.sort,jdbcType=INTEGER},
+    created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+    updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+    teacher_id = #{record.teacherId,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -281,13 +292,13 @@
     update course
     <set>
       <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="summary != null">
         summary = #{summary,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
-        `time` = #{time,jdbcType=INTEGER},
+        time = #{time,jdbcType=INTEGER},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -296,13 +307,13 @@
         image = #{image,jdbcType=VARCHAR},
       </if>
       <if test="level != null">
-        `level` = #{level,jdbcType=CHAR},
+        level = #{level,jdbcType=CHAR},
       </if>
       <if test="charge != null">
         charge = #{charge,jdbcType=CHAR},
       </if>
       <if test="status != null">
-        `status` = #{status,jdbcType=CHAR},
+        status = #{status,jdbcType=CHAR},
       </if>
       <if test="enroll != null">
         enroll = #{enroll,jdbcType=INTEGER},
@@ -316,23 +327,27 @@
       <if test="updatedAt != null">
         updated_at = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=CHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.course.server.domain.Course">
     update course
-    set `name` = #{name,jdbcType=VARCHAR},
-      summary = #{summary,jdbcType=VARCHAR},
-      `time` = #{time,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
-      image = #{image,jdbcType=VARCHAR},
-      `level` = #{level,jdbcType=CHAR},
-      charge = #{charge,jdbcType=CHAR},
-      `status` = #{status,jdbcType=CHAR},
-      enroll = #{enroll,jdbcType=INTEGER},
-      sort = #{sort,jdbcType=INTEGER},
-      created_at = #{createdAt,jdbcType=TIMESTAMP},
-      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    set name = #{name,jdbcType=VARCHAR},
+        summary = #{summary,jdbcType=VARCHAR},
+        time = #{time,jdbcType=INTEGER},
+        price = #{price,jdbcType=DECIMAL},
+        image = #{image,jdbcType=VARCHAR},
+        level = #{level,jdbcType=CHAR},
+        charge = #{charge,jdbcType=CHAR},
+        status = #{status,jdbcType=CHAR},
+        enroll = #{enroll,jdbcType=INTEGER},
+        sort = #{sort,jdbcType=INTEGER},
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+        teacher_id = #{teacherId,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
 </mapper>
