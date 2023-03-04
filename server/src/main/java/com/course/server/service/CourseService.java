@@ -1,10 +1,13 @@
 package com.course.server.service;
 
 import com.course.server.domain.Course;
+import com.course.server.domain.CourseContent;
 import com.course.server.domain.CourseExample;
+import com.course.server.dto.CourseContentDto;
 import com.course.server.dto.CourseDto;
 import com.course.server.dto.PageDto;
 import com.course.server.mapper.CourseCategoryMapper;
+import com.course.server.mapper.CourseContentMapper;
 import com.course.server.mapper.CourseMapper;
 import com.course.server.mapper.my.MyCourseMapper;
 import com.course.server.utils.CopyUtil;
@@ -30,6 +33,8 @@ public class CourseService {
     private MyCourseMapper myCourseMapper;
     @Resource
     private CourseCategoryService courseCategoryService;
+    @Resource
+    private CourseContentMapper courseContentMapper;
 
     /**
      * 列表查询
@@ -94,5 +99,28 @@ public class CourseService {
     public void updateTime(String courseId) {
         LOG.info("更新课程时长：{}", courseId);
         myCourseMapper.updateTime(courseId);
+    }
+
+    /**
+     * 查找课程内容
+     */
+    public CourseContentDto findContent(String id) {
+        CourseContent content = courseContentMapper.selectByPrimaryKey(id);
+        if (content == null) {
+            return null;
+        }
+        return CopyUtil.copy(content, CourseContentDto.class);
+    }
+
+    /**
+     * 保存课程内容，包含新增和修改
+     */
+    public int saveContent(CourseContentDto contentDto) {
+        CourseContent content = CopyUtil.copy(contentDto, CourseContent.class);
+        int i = courseContentMapper.updateByPrimaryKeyWithBLOBs(content);
+        if (i == 0) {
+            i = courseContentMapper.insert(content);
+        }
+        return i;
     }
 }
