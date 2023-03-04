@@ -427,115 +427,7 @@
                   <i class="menu-icon fa fa-caret-right"></i>
                   Typography
                 </a>
-
                 <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="elements.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Elements
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="buttons.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Buttons &amp; Icons
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="content-slider.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Content Sliders
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="treeview.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Treeview
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="jquery-ui.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  jQuery UI
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="nestable-list.html">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  Nestable Lists
-                </a>
-
-                <b class="arrow"></b>
-              </li>
-
-              <li class="">
-                <a href="#" class="dropdown-toggle">
-                  <i class="menu-icon fa fa-caret-right"></i>
-
-                  Three Level Menu
-                  <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                  <li class="">
-                    <a href="#">
-                      <i class="menu-icon fa fa-leaf green"></i>
-                      Item #1
-                    </a>
-
-                    <b class="arrow"></b>
-                  </li>
-
-                  <li class="">
-                    <a href="#" class="dropdown-toggle">
-                      <i class="menu-icon fa fa-pencil orange"></i>
-
-                      4th level
-                      <b class="arrow fa fa-angle-down"></b>
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                      <li class="">
-                        <a href="#">
-                          <i class="menu-icon fa fa-plus purple"></i>
-                          Add Product
-                        </a>
-
-                        <b class="arrow"></b>
-                      </li>
-
-                      <li class="">
-                        <a href="#">
-                          <i class="menu-icon fa fa-eye pink"></i>
-                          View Products
-                        </a>
-
-                        <b class="arrow"></b>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
               </li>
             </ul>
           </li>
@@ -565,20 +457,20 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
-              <li class="active" id="business-chapter-sidebar">
-                <router-link to="/business/chapter">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  大章管理
-                </router-link>
-                <b class="arrow"></b>
-              </li>
-              <li class="active" id="business-section-sidebar">
-                <router-link to="/business/section">
-                  <i class="menu-icon fa fa-caret-right"></i>
-                  小节管理
-                </router-link>
-                <b class="arrow"></b>
-              </li>
+<!--              <li class="active" id="business-chapter-sidebar">-->
+<!--                <router-link to="/business/chapter">-->
+<!--                  <i class="menu-icon fa fa-caret-right"></i>-->
+<!--                  大章管理-->
+<!--                </router-link>-->
+<!--                <b class="arrow"></b>-->
+<!--              </li>-->
+<!--              <li class="active" id="business-section-sidebar">-->
+<!--                <router-link to="/business/section">-->
+<!--                  <i class="menu-icon fa fa-caret-right"></i>-->
+<!--                  小节管理-->
+<!--                </router-link>-->
+<!--                <b class="arrow"></b>-->
+<!--              </li>-->
             </ul>
           </li>
         </ul><!-- /.nav-list -->
