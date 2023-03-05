@@ -9,7 +9,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/f/**").addResourceLocations("file:D:/file/imooc/course");
+        registry.addResourceHandler("/f/**").addResourceLocations("file:D:/file/imooc/course/");
     }
     //http://127.0.0.1:9003/file/f/teacher/0zJ6YKXc-topic.jpg
 }
