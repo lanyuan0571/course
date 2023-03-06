@@ -1,5 +1,6 @@
 package com.course.server.service;
 
+
 import com.course.server.domain.File;
 import com.course.server.domain.FileExample;
 import com.course.server.dto.FileDto;
@@ -10,11 +11,11 @@ import com.course.server.utils.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -40,10 +41,12 @@ public class FileService {
      */
     public void save(FileDto fileDto) {
         File file = CopyUtil.copy(fileDto, File.class);
-        if (StringUtils.isEmpty(fileDto.getId())) {
+        File fileDb = selectByKey(fileDto.getKey());
+        if (fileDb == null) {
             this.insert(file);
         } else {
-            this.update(file);
+            fileDb.setShardIndex(fileDto.getShardIndex());
+            this.update(fileDb);
         }
     }
 
@@ -71,5 +74,16 @@ public class FileService {
      */
     public void delete(String id) {
         fileMapper.deleteByPrimaryKey(id);
+    }
+
+    public File selectByKey(String key) {
+        FileExample example = new FileExample();
+        example.createCriteria().andKeyEqualTo(key);
+        List<File> fileList = fileMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(fileList)) {
+            return null;
+        } else {
+            return fileList.get(0);
+        }
     }
 }
