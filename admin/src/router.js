@@ -8,7 +8,7 @@ import Section from "./views/admin/section.vue";
 import Course from "./views/admin/course.vue"
 import Category from "./views/admin/category.vue"
 // import Chapter from "./views/admin/chapter.vue"
-// import Content from "./views/admin/content.vue"
+import Content from "./views/admin/content.vue"
 import Teacher from "./views/admin/teacher.vue"
 import File from "./views/admin/file.vue"
 // import User from "./views/admin/user.vue"
@@ -25,10 +25,10 @@ export default new Router({
     routes: [{
         path: "*",
         redirect: "/login",
-    }, {
+    },{
         path: "/login",
         component: Login
-    }, {
+    },{
         path: "/",
         name: "admin",
         component: Admin,
@@ -37,7 +37,7 @@ export default new Router({
             path: "welcome",
             name: "welcome",
             component: Welcome
-        }, {
+        },{
             path: "business/category",
             name: "business/category",
             component: Category,
@@ -45,18 +45,22 @@ export default new Router({
             path: "business/chapter",
             name: "business/chapter",
             component: Chapter,
-        }, {
+        },{
             path: "business/section",
             name: "business/section",
             component: Section,
-        }, {
+        },{
             path: "business/course",
             name: "business/course",
             component: Course,
-        }, {
+        },{
             path: "business/teacher",
             name: "business/teacher",
             component: Teacher,
+        },{
+                path: "business/content",
+                name: "business/content",
+                component: Content,
         },{
                 path: "file/file",
                 name: "file/file",
