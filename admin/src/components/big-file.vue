@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button type="button" v-on:click="selectFile()" class="btn btn-white btn-default btn-round">
-      <i class="ace-icon fa fa-upload"></i>
-      {{text}}
+    <button type="button" v-on:click="selectFile()" className="btn btn-white btn-default btn-round">
+      <i className="ace-icon fa fa-upload"></i>
+      {{ text }}
     </button>
-    <input class="hidden" type="file" ref="file" v-on:change="uploadFile()" v-bind:id="inputId+'-input'">
+    <input className="hidden" type="file" ref="file" v-on:change="uploadFile()" v-bind:id="inputId+'-input'">
   </div>
 </template>
 
@@ -30,11 +30,10 @@ export default {
     },
   },
   data: function () {
-    return {
-    }
+    return {}
   },
   methods: {
-    uploadFile () {
+    uploadFile() {
       let _this = this;
       let formData = new window.FormData();
       let file = _this.$refs.file.files[0];
@@ -98,13 +97,12 @@ export default {
     },
 
 
-
     /**
      * 检查文件状态，是否已上传过？传到第几个分片？
      */
-    check (param) {
+    check(param) {
       let _this = this;
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response)=>{
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response) => {
         let resp = response.data;
         if (resp.success) {
           let obj = resp.content;
@@ -117,7 +115,7 @@ export default {
             Toast.success("文件极速秒传成功！");
             _this.afterUpload(resp);
             $("#" + _this.inputId + "-input").val("");
-          }  else {
+          } else {
             param.shardIndex = obj.shardIndex + 1;
             console.log("找到文件记录，从分片" + param.shardIndex + "开始上传");
             _this.upload(param);
@@ -132,7 +130,7 @@ export default {
     /**
      * 将分片数据转成base64进行上传
      */
-    upload (param) {
+    upload(param) {
       let _this = this;
       let shardIndex = param.shardIndex;
       let shardTotal = param.shardTotal;
@@ -140,22 +138,24 @@ export default {
       let fileShard = _this.getFileShard(shardIndex, shardSize);
       // 将图片转为base64进行传输
       let fileReader = new FileReader();
+
+      Progress.show(parseInt((shardIndex - 1) * 100 / shardTotal));
       fileReader.onload = function (e) {
         let base64 = e.target.result;
         // console.log("base64:", base64);
 
         param.shard = base64;
 
-        Loading.show();
         _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', param).then((response) => {
-          Loading.hide();
           let resp = response.data;
           console.log("上传文件成功：", resp);
+          Progress.show(parseInt(shardIndex * 100 / shardTotal));
           if (shardIndex < shardTotal) {
             // 上传下一个分片
             param.shardIndex = param.shardIndex + 1;
             _this.upload(param);
           } else {
+            Progress.hide();
             _this.afterUpload(resp);
             $("#" + _this.inputId + "-input").val("");
           }
@@ -164,7 +164,7 @@ export default {
       fileReader.readAsDataURL(fileShard);
     },
 
-    getFileShard (shardIndex, shardSize) {
+    getFileShard(shardIndex, shardSize) {
       let _this = this;
       let file = _this.$refs.file.files[0];
       let start = (shardIndex - 1) * shardSize;	//当前分片起始位置
@@ -173,7 +173,7 @@ export default {
       return fileShard;
     },
 
-    selectFile () {
+    selectFile() {
       let _this = this;
       $("#" + _this.inputId + "-input").trigger("click");
     }
