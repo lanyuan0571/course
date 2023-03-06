@@ -2,10 +2,9 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" class="pink"> {{ course.name }}</router-link>
-      :
+      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>：
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/chapter" class="pink"> {{ chapter.name }}</router-link>
+      <router-link to="/business/chapter" class="pink"> {{chapter.name}} </router-link>
     </h4>
     <hr>
     <p>
@@ -34,14 +33,15 @@
         <th>操作</th>
       </tr>
       </thead>
+
       <tbody>
       <tr v-for="section in sections">
-        <td>{{ section.id }}</td>
-        <td>{{ section.title }}</td>
-        <td>{{ section.video }}</td>
-        <td>{{ section.time | formatSecond}}</td>
-        <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
-        <td>{{ section.sort }}</td>
+        <td>{{section.id}}</td>
+        <td>{{section.title}}</td>
+        <td>{{section.video}}</td>
+        <td>{{section.time | formatSecond}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+        <td>{{section.sort}}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button v-on:click="edit(section)" class="btn btn-xs btn-info">
@@ -55,12 +55,12 @@
       </tr>
       </tbody>
     </table>
+
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
@@ -74,23 +74,23 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{ course.name }}</p>
+                  <p class="form-control-static">{{course.name}}</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">大章</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{ chapter.name }}</p>
+                  <p class="form-control-static">{{chapter.name}}</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <file v-bind:input-id="'video-upload'"
-                        v-bind:text="'上传视频'"
-                        v-bind:suffixs="['mp4']"
-                        v-bind:use="FILE_USE.COURSE.key"
-                        v-bind:after-upload="afterUpload"></file>
+                  <big-file v-bind:input-id="'video-upload'"
+                            v-bind:text="'上传大视频'"
+                            v-bind:suffixs="['mp4']"
+                            v-bind:use="FILE_USE.COURSE.key"
+                            v-bind:after-upload="afterUpload"></big-file>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
                       <video v-bind:src="section.video" id="video" controls="controls"></video>
@@ -108,7 +108,7 @@
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
                   <select v-model="section.charge" class="form-control">
-                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{ o.value }}</option>
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
                   </select>
                 </div>
               </div>
@@ -132,24 +132,23 @@
 
 <script>
 import Pagination from "../../components/pagination";
-import File from "../../components/file";
+import BigFile from "../../components/big-file";
 export default {
-  components: {Pagination,File},
+  components: {Pagination, BigFile},
   name: "business-section",
-  data: function () {
+  data: function() {
     return {
       section: {},
       sections: [],
       SECTION_CHARGE: SECTION_CHARGE,
+      FILE_USE: FILE_USE,
       course: {},
       chapter: {},
-      FILE_USE: FILE_USE,
     }
   },
-  mounted: function () {
+  mounted: function() {
     let _this = this;
     _this.$refs.pagination.size = 5;
-    //session会话关联大章和课程关联
     let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
     let chapter = SessionStorage.get(SESSION_KEY_CHAPTER) || {};
     if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
@@ -160,6 +159,7 @@ export default {
     _this.list(1);
     // sidebar激活样式方法一
     this.$parent.activeSidebar("business-course-sidebar");
+
   },
   methods: {
     /**
@@ -191,11 +191,12 @@ export default {
         size: _this.$refs.pagination.size,
         courseId: _this.course.id,
         chapterId: _this.chapter.id
-      }).then((response) => {
+      }).then((response)=>{
         Loading.hide();
         let resp = response.data;
         _this.sections = resp.content.list;
         _this.$refs.pagination.render(page, resp.content.total);
+
       })
     },
 
@@ -204,6 +205,7 @@ export default {
      */
     save(page) {
       let _this = this;
+
       // 保存校验
       if (1 != 1
           || !Validator.require(_this.section.title, "标题")
@@ -214,8 +216,9 @@ export default {
       }
       _this.section.courseId = _this.course.id;
       _this.section.chapterId = _this.chapter.id;
+
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -235,7 +238,7 @@ export default {
       let _this = this;
       Confirm.show("删除小节后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
@@ -245,12 +248,14 @@ export default {
         })
       });
     },
+
     afterUpload(resp) {
       let _this = this;
       let video = resp.content.path;
       _this.section.video = video;
       _this.getTime();
     },
+
     /**
      * 获取时长
      */
@@ -262,6 +267,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 video {
   width: 100%;
