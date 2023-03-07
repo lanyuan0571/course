@@ -1,28 +1,27 @@
 <template>
   <div>
-    <h4 className="lighter">
-      <i className="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/course" className="pink"> {{ course.name }}</router-link>
-      ：
-      <i className="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/business/chapter" className="pink"> {{ chapter.name }}</router-link>
+    <h4 class="lighter">
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/course" class="pink"> {{course.name}} </router-link>:
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/business/chapter" class="pink"> {{chapter.name}} </router-link>
     </h4>
     <hr>
     <p>
-      <button v-on:click="add()" className="btn btn-white btn-default btn-round">
-        <i className="ace-icon fa fa-edit"></i>
+      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-edit"></i>
         新增
       </button>
       &nbsp;
-      <button v-on:click="list(1)" className="btn btn-white btn-default btn-round">
-        <i className="ace-icon fa fa-refresh"></i>
+      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
+        <i class="ace-icon fa fa-refresh"></i>
         刷新
       </button>
     </p>
 
     <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
 
-    <table id="simple-table" className="table  table-bordered table-hover">
+    <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
         <th>ID</th>
@@ -37,19 +36,19 @@
 
       <tbody>
       <tr v-for="section in sections">
-        <td>{{ section.id }}</td>
-        <td>{{ section.title }}</td>
-        <td>{{ section.video }}</td>
-        <td>{{ section.time | formatSecond }}</td>
-        <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
-        <td>{{ section.sort }}</td>
+        <td>{{section.id}}</td>
+        <td>{{section.title}}</td>
+        <td>{{section.video}}</td>
+        <td>{{section.time | formatSecond}}</td>
+        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
+        <td>{{section.sort}}</td>
         <td>
-          <div className="hidden-sm hidden-xs btn-group">
-            <button v-on:click="edit(section)" className="btn btn-xs btn-info">
-              <i className="ace-icon fa fa-pencil bigger-120"></i>
+          <div class="hidden-sm hidden-xs btn-group">
+            <button v-on:click="edit(section)" class="btn btn-xs btn-info">
+              <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button v-on:click="del(section.id)" className="btn btn-xs btn-danger">
-              <i className="ace-icon fa fa-trash-o bigger-120"></i>
+            <button v-on:click="del(section.id)" class="btn btn-xs btn-danger">
+              <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
         </td>
@@ -57,86 +56,85 @@
       </tbody>
     </table>
 
-    <div id="form-modal" className="modal fade" tabIndex="-1" role="dialog">
-      <div className="modal-dialog" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-            </button>
-            <h4 className="modal-title">表单</h4>
+    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">表单</h4>
           </div>
-          <div className="modal-body">
-            <form className="form-horizontal">
-              <div className="form-group">
-                <label className="col-sm-2 control-label">标题</label>
-                <div className="col-sm-10">
-                  <input v-model="section.title" className="form-control">
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">标题</label>
+                <div class="col-sm-10">
+                  <input v-model="section.title" class="form-control">
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">课程</label>
-                <div className="col-sm-10">
-                  <p className="form-control-static">{{ course.name }}</p>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">课程</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">{{course.name}}</p>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">大章</label>
-                <div className="col-sm-10">
-                  <p className="form-control-static">{{ chapter.name }}</p>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">大章</label>
+                <div class="col-sm-10">
+                  <p class="form-control-static">{{chapter.name}}</p>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">视频</label>
-                <div className="col-sm-10">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">视频</label>
+                <div class="col-sm-10">
                   <vod v-bind:input-id="'video-upload'"
                        v-bind:text="'上传VOD'"
                        v-bind:suffixs="['mp4']"
                        v-bind:use="FILE_USE.COURSE.key"
                        v-bind:after-upload="afterUpload"></vod>
-                  <div v-show="section.video" className="row">
-                    <div className="col-md-9">
+                  <div v-show="section.video" class="row">
+                    <div class="col-md-9">
                       <video v-bind:src="section.video" id="video" controls="controls"></video>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">时长</label>
-                <div className="col-sm-10">
-                  <input v-model="section.time" className="form-control">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">时长</label>
+                <div class="col-sm-10">
+                  <input v-model="section.time" class="form-control">
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">视频</label>
-                <div className="col-sm-10">
-                  <input v-model="section.video" className="form-control" disabled>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">视频</label>
+                <div class="col-sm-10">
+                  <input v-model="section.video" class="form-control" disabled>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">VOD</label>
-                <div className="col-sm-10">
-                  <input v-model="section.vod" className="form-control" disabled>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">VOD</label>
+                <div class="col-sm-10">
+                  <input v-model="section.vod" class="form-control" disabled>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">收费</label>
-                <div className="col-sm-10">
-                  <select v-model="section.charge" className="form-control">
-                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{ o.value }}</option>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">收费</label>
+                <div class="col-sm-10">
+                  <select v-model="section.charge" class="form-control">
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
                   </select>
                 </div>
               </div>
-              <div className="form-group">
-                <label className="col-sm-2 control-label">顺序</label>
-                <div className="col-sm-10">
-                  <input v-model="section.sort" className="form-control">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">顺序</label>
+                <div class="col-sm-10">
+                  <input v-model="section.sort" class="form-control">
                 </div>
               </div>
             </form>
           </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-default" data-dismiss="modal">取消</button>
-            <button v-on:click="save()" type="button" className="btn btn-primary">保存</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button v-on:click="save()" type="button" class="btn btn-primary">保存</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -148,11 +146,10 @@
 import Pagination from "../../components/pagination";
 import BigFile from "../../components/big-file";
 import Vod from "../../components/vod";
-
 export default {
   components: {Pagination, BigFile, Vod},
   name: "business-section",
-  data: function () {
+  data: function() {
     return {
       section: {},
       sections: [],
@@ -162,7 +159,7 @@ export default {
       chapter: {},
     }
   },
-  mounted: function () {
+  mounted: function() {
     let _this = this;
     _this.$refs.pagination.size = 5;
     let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
@@ -207,7 +204,7 @@ export default {
         size: _this.$refs.pagination.size,
         courseId: _this.course.id,
         chapterId: _this.chapter.id
-      }).then((response) => {
+      }).then((response)=>{
         Loading.hide();
         let resp = response.data;
         _this.sections = resp.content.list;
@@ -235,7 +232,7 @@ export default {
       _this.section.chapterId = _this.chapter.id;
 
       Loading.show();
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/admin/section/save', _this.section).then((response)=>{
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -255,7 +252,7 @@ export default {
       let _this = this;
       Confirm.show("删除小节后不可恢复，确认删除？", function () {
         Loading.show();
-        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
+        _this.$ajax.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response)=>{
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
