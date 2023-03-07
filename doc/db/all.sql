@@ -187,6 +187,7 @@ alter table `file` add column (`key` varchar(32) comment '文件标识');
 alter table `file` add unique key key_unique (`key`);
 alter table `file` add column (`vod` char(32) comment 'vod|阿里云vod');
 
+/*用户*/
 drop table if exists `user`;
 create table `user` (
   `id` char(8) not null default '' comment 'id',

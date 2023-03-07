@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 </#if>
 </#list>
+
 public class ${Domain}Dto {
 
     <#list fieldList as field>
