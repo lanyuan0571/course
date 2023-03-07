@@ -1,10 +1,10 @@
 <template>
   <div>
-    <button type="button" v-on:click="selectFile()" className="btn btn-white btn-default btn-round">
-      <i className="ace-icon fa fa-upload"></i>
-      {{ text }}
+    <button type="button" v-on:click="selectFile()" class="btn btn-white btn-default btn-round">
+      <i class="ace-icon fa fa-upload"></i>
+      {{text}}
     </button>
-    <input className="hidden" type="file" ref="file" v-on:change="uploadFile()" v-bind:id="inputId+'-input'">
+    <input class="hidden" type="file" ref="file" v-on:change="uploadFile()" v-bind:id="inputId+'-input'">
   </div>
 </template>
 
@@ -24,16 +24,23 @@ export default {
     use: {
       default: ""
     },
+    shardSize: {
+      default: 50 * 1024
+    },
+    url: {
+      default: "oss-append"
+    },
     afterUpload: {
       type: Function,
       default: null
     },
   },
   data: function () {
-    return {}
+    return {
+    }
   },
   methods: {
-    uploadFile() {
+    uploadFile () {
       let _this = this;
       let formData = new window.FormData();
       let file = _this.$refs.file.files[0];
@@ -78,7 +85,9 @@ export default {
       }
 
       // 文件分片
-      let shardSize = 5 * 1024 * 1024;    //以10MB为一个分片
+      // let shardSize = 10 * 1024 * 1024;    //以10MB为一个分片
+      // let shardSize = 50 * 1024;    //以50KB为一个分片
+      let shardSize = _this.shardSize;
       let shardIndex = 1;		//分片索引，1表示第1个分片
       let size = file.size;
       let shardTotal = Math.ceil(size / shardSize); //总片数
@@ -98,12 +107,13 @@ export default {
     },
 
 
+
     /**
      * 检查文件状态，是否已上传过？传到第几个分片？
      */
-    check(param) {
+    check (param) {
       let _this = this;
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response) => {
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response)=>{
         let resp = response.data;
         if (resp.success) {
           let obj = resp.content;
@@ -116,7 +126,7 @@ export default {
             Toast.success("文件极速秒传成功！");
             _this.afterUpload(resp);
             $("#" + _this.inputId + "-input").val("");
-          } else {
+          }  else {
             param.shardIndex = obj.shardIndex + 1;
             console.log("找到文件记录，从分片" + param.shardIndex + "开始上传");
             _this.upload(param);
@@ -131,7 +141,7 @@ export default {
     /**
      * 将分片数据转成base64进行上传
      */
-    upload(param) {
+    upload (param) {
       let _this = this;
       let shardIndex = param.shardIndex;
       let shardTotal = param.shardTotal;
@@ -147,7 +157,7 @@ export default {
 
         param.shard = base64;
 
-        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/oss-append', param).then((response) => {
+        _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/' + _this.url, param).then((response) => {
           let resp = response.data;
           console.log("上传文件成功：", resp);
           Progress.show(parseInt(shardIndex * 100 / shardTotal));
@@ -165,7 +175,7 @@ export default {
       fileReader.readAsDataURL(fileShard);
     },
 
-    getFileShard(shardIndex, shardSize) {
+    getFileShard (shardIndex, shardSize) {
       let _this = this;
       let file = _this.$refs.file.files[0];
       let start = (shardIndex - 1) * shardSize;	//当前分片起始位置
@@ -174,7 +184,7 @@ export default {
       return fileShard;
     },
 
-    selectFile() {
+    selectFile () {
       let _this = this;
       $("#" + _this.inputId + "-input").trigger("click");
     }
