@@ -140,6 +140,17 @@ public class VodUtil {
         request.setAuthTimeout(3600L);
         return client.getAcsResponse(request);
     }
+    /**
+     * 获取播放凭证函数
+     * @param client
+     * @return
+     * @throws Exception
+     */
+    public static GetVideoPlayAuthResponse getVideoPlayAuth(DefaultAcsClient client, String videoId) throws Exception {
+        GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+        request.setVideoId(videoId);
+        return client.getAcsResponse(request);
+    }
 
     public static void main(String[] argv) {
         //您的AccessKeyId
