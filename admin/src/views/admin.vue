@@ -483,7 +483,6 @@
 							<span class="blue bolder">蓝远</span>
 							在线视频课程 &copy; 2022-2099
 						</span>
-
             &nbsp; &nbsp;
             <span class="action-buttons">
 							<a href="#">

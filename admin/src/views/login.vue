@@ -23,33 +23,26 @@
                       <i class="ace-icon fa fa-coffee green"></i>
                       请输入用户名和密码
                     </h4>
-
                     <div class="space-6"></div>
-
                     <form>
                       <fieldset>
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control"
-                                     placeholder="Username"/>
+															<input v-model="user.loginName" type="text" class="form-control" placeholder="用户名"/>
 															<i class="ace-icon fa fa-user"></i>
 														</span>
                         </label>
-
                         <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control"
-                                     placeholder="Password"/>
+															<input v-model="user.password" type="password" class="form-control" placeholder="密码"/>
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
                         </label>
-
                         <div class="space"></div>
-
                         <div class="clearfix">
                           <label class="inline">
                             <input type="checkbox" class="ace"/>
-                            <span class="lbl"> Remember Me</span>
+                            <span class="lbl">记住密码</span>
                           </label>
 
                           <button type="button"
@@ -75,15 +68,32 @@
 <script>
 export default {
   name: 'login',
+  data: function() {
+    return {
+      user: {},
+    }
+  },
   mounted: function () {
     $('body').removeClass('no-skin')
     $('body').attr('class', 'login-layout light-login');
   },
   methods: {
-    /*假登录*/
-    login() {
-      this.$router.push("/welcome")
-    }
+    login () {
+      let _this = this;
+
+      _this.user.password = hex_md5(_this.user.password + KEY);
+      Loading.show();
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/system/admin/user/login', _this.user).then((response)=>{
+        Loading.hide();
+        let resp = response.data;
+        if (resp.success) {
+          console.log(resp.content);
+          _this.$router.push("/welcome")
+        } else {
+          Toast.warning(resp.message)
+        }
+      });
+    },
   }
 }
 </script>

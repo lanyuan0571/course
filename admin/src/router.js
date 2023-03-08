@@ -26,8 +26,8 @@ export default new Router({
         path: "*",
         redirect: "/login",
     },{
-            path: "",
-            redirect: "/login",
+        path: "",
+        redirect: "/login",
     },{
         path: "/login",
         component: Login
@@ -61,17 +61,17 @@ export default new Router({
             name: "business/teacher",
             component: Teacher,
         },{
-                path: "business/content",
-                name: "business/content",
-                component: Content,
+            path: "business/content",
+            name: "business/content",
+            component: Content,
         }, {
             path: "file/file",
             name: "file/file",
             component: File,
         },{
-                path: "system/user",
-                name: "system/user",
-                component: User,
+            path: "system/user",
+            name: "system/user",
+            component: User,
         }]
     }]
 })

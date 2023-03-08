@@ -53,7 +53,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">表单</h4>
+            <h4 class="modal-title">用户详情</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal">
@@ -178,7 +178,6 @@
        */
       save() {
         let _this = this;
-
         // 保存校验
         if (1 != 1
           || !Validator.require(_this.user.loginName, "登陆名")
@@ -227,7 +226,7 @@
         let _this = this;
         _this.user = $.extend({}, user);
         _this.user.password=null
-        $("#form-modal").modal("show");
+        $("#edit-password-modal").modal("show");
       },
       /**
        * 点击【保存密码】
@@ -240,7 +239,7 @@
           Loading.hide();
           let resp = response.data;
           if (resp.success) {
-            $("#form-modal").modal("hide");
+            $("#edit-password-modal").modal("hide");
             _this.list(1);
             Toast.success("保存成功！");
           } else {
