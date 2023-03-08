@@ -280,11 +280,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="../../public/static/image/讲师头像/讲师头像4.jpg" alt="Jason's Photo" />
-                <span class="user-info">
-									<small>Welcome,</small>
-									lanyuan
-								</span>
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
 
                 <i class="ace-icon fa fa-caret-down"></i>
               </a>
@@ -356,7 +352,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎 </span>
+              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -480,9 +476,10 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">蓝远</span>
-							在线视频课程 &copy; 2022-2099
+							<span class="blue bolder">甲蛙</span>
+							在线视频课程 &copy; 2099-2099
 						</span>
+
             &nbsp; &nbsp;
             <span class="action-buttons">
 							<a href="#">
@@ -511,6 +508,11 @@
 <script>
 export default {
   name: "admin",
+  data: function() {
+    return {
+      loginUser: {},
+    }
+  },
   mounted: function() {
     let _this = this;
     $("body").removeClass("login-layout light-login");
@@ -518,8 +520,10 @@ export default {
     // console.log("admin");
     // sidebar激活样式方法二
     _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
-    /*重新加载ACE.js*/
+
     $.getScript('/ace/assets/js/ace.min.js');
+
+    _this.loginUser = Tool.getLoginUser();
   },
   watch: {
     $route: {
