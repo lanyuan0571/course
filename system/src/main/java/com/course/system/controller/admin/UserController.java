@@ -61,4 +61,16 @@ public class UserController {
         userService.delete(id);
         return responseDto;
     }
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
+    @PostMapping("/save-password")
+    public ResponseDto savePassword(@RequestBody UserDto userDto) {
+        //md5处理密码
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        ResponseDto responseDto = new ResponseDto();
+        userService.save(userDto);
+        responseDto.setContent(userDto);
+        return responseDto;
+    }
 }
