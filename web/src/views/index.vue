@@ -1,65 +1,33 @@
 <template>
   <main role="main">
 
-    <section className="jumbotron text-center">
-      <div className="container">
+    <section class="jumbotron text-center">
+      <div class="container">
         <h1>在线视频课程平台</h1>
-        <p className="lead text-muted m-3">
+        <p class="lead text-muted m-3">
           知识付费时代刚刚起步，在这个领域有很多的发展机会。整个课程以实战为基础，手把手从零开始，一步一步搭建一个完整的企业级开发架构。不讲废话，只讲干货。
         </p>
         <p>
-          <a href="#" className="btn btn-primary my-2 p-3 font-weight-bold">点击进入所有课程</a>
+          <a href="#" class="btn btn-primary my-2 p-3 font-weight-bold">点击进入所有课程</a>
         </p>
       </div>
     </section>
 
-    <div className="album py-5 bg-light">
-      <div className="container">
-        <div className="title1">最新上线</div>
-        <div className="row">
-          <div v-for="o in news" className="col-md-4">
-            <div className="card mb-4 shadow-sm course">
-              <img className="img-fluid" v-bind:src="o.image">
-              <div className="card-body">
-                <h4 className="">{{ o.name }}</h4>
-                <p className="card-text">{{ o.summary }}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="btn-group">
-                    <button type="button" className="btn btn-sm btn-outline-secondary">课程详情</button>
-                  </div>
-                  <div className="text-muted">
-                    <span className="badge badge-info"><i className="fa fa-yen"
-                                                          aria-hidden="true"></i>&nbsp;{{ o.price }}</span>&nbsp;
-                    <span className="badge badge-info"><i className="fa fa-user" aria-hidden="true"></i>&nbsp;123</span>&nbsp;
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="title1">最新上线</div>
+        <div class="row">
+          <div v-for="o in news" class="col-md-4">
+            <the-course v-bind:course="o"></the-course>
           </div>
         </div>
 
         <hr>
 
-        <div className="title2">好课推荐</div>
-        <div className="row">
-          <div v-for="o in news" className="col-md-4">
-            <div className="card mb-4 shadow-sm course">
-              <img className="img-fluid" v-bind:src="o.image">
-              <div className="card-body">
-                <h4 className="">{{ o.name }}</h4>
-                <p className="card-text">{{ o.summary }}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="btn-group">
-                    <button type="button" className="btn btn-sm btn-outline-secondary">课程详情</button>
-                  </div>
-                  <div className="text-muted">
-                    <span className="badge badge-info"><i className="fa fa-yen"
-                                                          aria-hidden="true"></i>&nbsp;{{ o.price }}</span>&nbsp;
-                    <span className="badge badge-info"><i className="fa fa-user" aria-hidden="true"></i>&nbsp;123</span>&nbsp;
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="title2">好课推荐</div>
+        <div class="row">
+          <div v-for="o in news" class="col-md-4">
+            <the-course v-bind:course="o"></the-course>
           </div>
         </div>
       </div>
@@ -70,8 +38,11 @@
 
 <script>
 
+import TheCourse from "../components/the-course";
+
 export default {
   name: 'index',
+  components: {TheCourse},
   data: function () {
     return {
       news: [],
@@ -116,14 +87,5 @@ export default {
   -webkit-text-stroke: 1px black;
   letter-spacing: 0.04em;
   font-size: 2rem;
-}
-
-.course h4 {
-  font-size: 1.25rem;
-  margin: 15px 0;
-}
-
-.course .text-muted .badge {
-  font-size: 1rem;
 }
 </style>
