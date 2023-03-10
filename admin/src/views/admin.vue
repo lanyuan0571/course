@@ -289,14 +289,14 @@
                 <li>
                   <a href="#">
                     <i class="ace-icon fa fa-cog"></i>
-                    Settings
+                    系统设置
                   </a>
                 </li>
 
                 <li>
                   <a href="profile.html">
                     <i class="ace-icon fa fa-user"></i>
-                    Profile
+                    个人信息
                   </a>
                 </li>
 
@@ -305,7 +305,7 @@
                 <li>
                   <a v-on:click="logout()" href="#">
                     <i class="ace-icon fa fa-power-off"></i>
-                    logout
+                    退出登录
                   </a>
                 </li>
               </ul>
@@ -378,11 +378,11 @@
                 <b class="arrow"></b>
               </li>
 
-              <li class="">
-                <a href="jqgrid.html">
+              <li class="" id="system-resource-sidebar">
+                <router-link to="/system/resource">
                   <i class="menu-icon fa fa-caret-right"></i>
-                  权限管理
-                </a>
+                  资源管理
+                </router-link>
 
                 <b class="arrow"></b>
               </li>
@@ -476,7 +476,7 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">甲蛙</span>
+							<span class="blue bolder">Hedwig</span>
 							在线视频课程 &copy; 2099-2099
 						</span>
 
@@ -560,10 +560,11 @@ export default {
         parentLi.addClass("open active");
       }
     },
+
     logout () {
       let _this = this;
       Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/'+_this.loginUser.token).then((response)=>{
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response)=>{
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
@@ -573,7 +574,7 @@ export default {
           Toast.warning(resp.message)
         }
       });
-    }
+    },
   }
 }
 </script>
