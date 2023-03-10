@@ -184,8 +184,7 @@
                   <ul class="dropdown-menu dropdown-navbar">
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo"
-                             alt="Alex's Avatar"/>
+                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -202,8 +201,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo"
-                             alt="Susan's Avatar"/>
+                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -220,8 +218,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo"
-                             alt="Bob's Avatar"/>
+                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -238,8 +235,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo"
-                             alt="Kate's Avatar"/>
+                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -256,8 +252,7 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo"
-                             alt="Fred's Avatar"/>
+                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -285,7 +280,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
 
                 <i class="ace-icon fa fa-caret-down"></i>
               </a>
@@ -357,13 +352,13 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎：{{ loginUser.name }} </span>
+              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
             </router-link>
 
             <b class="arrow"></b>
           </li>
 
-          <li class="">
+          <li v-show="hasResource('01')" class="">
             <a href="#" class="dropdown-toggle">
               <i class="menu-icon fa fa-list"></i>
               <span class="menu-text"> 系统管理 </span>
@@ -374,7 +369,7 @@
             <b class="arrow"></b>
 
             <ul class="submenu">
-              <li class="" id="system-user-sidebar">
+              <li v-show="hasResource('0101')" class="" id="system-user-sidebar">
                 <router-link to="/system/user">
                   <i class="menu-icon fa fa-caret-right"></i>
                   用户管理
@@ -383,14 +378,16 @@
                 <b class="arrow"></b>
               </li>
 
-              <li class="" id="system-resource-sidebar">
+              <li v-show="hasResource('0102')" class="" id="system-resource-sidebar">
                 <router-link to="/system/resource">
                   <i class="menu-icon fa fa-caret-right"></i>
                   资源管理
                 </router-link>
 
                 <b class="arrow"></b>
-              <li class="" id="system-role-sidebar">
+              </li>
+
+              <li v-show="hasResource('0103')" class="" id="system-role-sidebar">
                 <router-link to="/system/role">
                   <i class="menu-icon fa fa-caret-right"></i>
                   角色管理
@@ -466,8 +463,7 @@
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
-             data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
         </div>
       </div>
 
@@ -521,12 +517,12 @@
 <script>
 export default {
   name: "admin",
-  data: function () {
+  data: function() {
     return {
       loginUser: {},
     }
   },
-  mounted: function () {
+  mounted: function() {
     let _this = this;
     $("body").removeClass("login-layout light-login");
     $("body").attr("class", "no-skin");
@@ -540,18 +536,26 @@ export default {
   },
   watch: {
     $route: {
-      handler: function (val, oldVal) {
+      handler:function(val, oldVal){
         // sidebar激活样式方法二
         console.log("---->页面跳转：", val, oldVal);
         let _this = this;
-        _this.$nextTick(function () {  //页面加载完成后执行
+        _this.$nextTick(function(){  //页面加载完成后执行
           _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
         })
       }
     }
   },
   methods: {
-    login() {
+    /**
+     * 查找是否有权限
+     * @param id
+     */
+    hasResource(id) {
+      return Tool.hasResource(id);
+    },
+
+    login () {
       this.$router.push("/admin")
     },
 
@@ -574,10 +578,10 @@ export default {
       }
     },
 
-    logout() {
+    logout () {
       let _this = this;
       Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response) => {
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response)=>{
         Loading.hide();
         let resp = response.data;
         if (resp.success) {
