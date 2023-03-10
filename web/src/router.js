@@ -15,3 +15,5 @@ export default new Router({
         component: Index
     }]
 })
+
+

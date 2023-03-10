@@ -1,6 +1,6 @@
 <template>
   <main role="main">
-
+    <the-header></the-header>
     <section class="jumbotron text-center">
       <div class="container">
         <h1>在线视频课程平台</h1>
@@ -157,13 +157,17 @@
         </div>
       </div>
     </div>
-
+    <the-footer></the-footer>
   </main>
 </template>
 
 <script>
 
+import TheHeader from "@/components/the-header.vue";
+import TheFooter from "@/components/the-footer.vue";
+
 export default {
   name: 'index',
+  components: {TheFooter, TheHeader},
 }
 </script>
