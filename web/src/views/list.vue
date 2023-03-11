@@ -1,41 +1,39 @@
 <template>
   <main role="main">
-    <div className="header-nav">
-      <div className="clearfix">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <a v-on:click="onClickLevel1('00000000')" id="category-00000000" href="javascript:;"
-                 className="cur">全部</a>
-              <a v-for="o in level1" v-on:click="onClickLevel1(o.id)" v-bind:id="'category-' + o.id"
-                 href="javascript:;">{{ o.name }}</a>
+    <div class="header-nav">
+      <div class="clearfix">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <a v-on:click="onClickLevel1('00000000')" id="category-00000000" href="javascript:;" class="cur">全部</a>
+              <a v-for="o in level1" v-on:click="onClickLevel1(o.id)" v-bind:id="'category-' + o.id" href="javascript:;">{{o.name}}</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div className="skill clearfix">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <a v-on:click="onClickLevel2('11111111')" id="category-11111111" href="javascript:;" className="on">不限</a>
-            <a v-for="o in level2" v-on:click="onClickLevel2(o.id)" v-bind:id="'category-' + o.id" href="javascript:;">{{ o.name }}</a>
+    <div class="skill clearfix">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <a v-on:click="onClickLevel2('11111111')" id="category-11111111" href="javascript:;" class="on">不限</a>
+            <a v-for="o in level2" v-on:click="onClickLevel2(o.id)" v-bind:id="'category-' + o.id" href="javascript:;">{{o.name}}</a>
 
             <div style="clear:both"></div>
           </div>
         </div>
       </div>
     </div>
-    <div className="album py-5 bg-light">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
             <pagination ref="pagination" v-bind:list="listCourse"></pagination>
           </div>
         </div>
         <br>
-        <div className="row">
-          <div v-for="o in courses" className="col-md-4">
+        <div class="row">
+          <div v-for="o in courses" class="col-md-4">
             <the-course v-bind:course="o"></the-course>
           </div>
           <h3 v-show="courses.length === 0">课程还未上架</h3>
@@ -59,6 +57,8 @@ export default {
       level1: [],
       level2: [],
       categorys: [],
+      level1Id: "",
+      level2Id: "",
     }
   },
   mounted() {
@@ -76,6 +76,7 @@ export default {
       _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/course/list', {
         page: page,
         size: _this.$refs.pagination.size,
+        categoryId: _this.level2Id || _this.level1Id || "", // 优先取level2Id
       }).then((response) => {
         let resp = response.data;
         if (resp.success) {
@@ -92,7 +93,7 @@ export default {
      */
     allCategory() {
       let _this = this;
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/category/all').then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/category/all').then((response)=>{
         let resp = response.data;
         let categorys = resp.content;
         _this.categorys = categorys;
@@ -117,10 +118,20 @@ export default {
     onClickLevel1(level1Id) {
       let _this = this;
 
-      //点击一级分类时，显示激活状态
+      // 点击一级分类时，设置变量，用于课程筛选
+      // 二级分类id为空，
+      // 如果点击的是【全部】，则一级分类id为空
+      _this.level2Id = null;
+      _this.level1Id = level1Id;
+      if (level1Id === "00000000") {
+        _this.level1Id = null;
+      }
+
+      // 点击一级分类时，显示激活状态
       $("#category-" + level1Id).siblings("a").removeClass("cur");
       $("#category-" + level1Id).addClass("cur");
-      //点击一级分类时，二级分类【无限】按钮要设置激活状态
+
+      // 点击一级分类时，二级分类【无限】按钮要设置激活状态
       $("#category-11111111").siblings("a").removeClass("on");
       $("#category-11111111").addClass("on");
 
@@ -145,6 +156,9 @@ export default {
           }
         }
       }
+
+      // 重新加载课程列表
+      _this.listCourse(1);
     },
 
     /**
@@ -155,6 +169,17 @@ export default {
       let _this = this;
       $("#category-" + level2Id).siblings("a").removeClass("on");
       $("#category-" + level2Id).addClass("on");
+
+      // 点击二级分类时，设置变量，用于课程筛选
+      // 如果点击的是【无限】，则二级分类id为空
+      if (level2Id === "11111111") {
+        _this.level2Id = null;
+      } else {
+        _this.level2Id = level2Id;
+      }
+
+      // 重新加载课程列表
+      _this.listCourse(1);
     },
 
   }
@@ -165,15 +190,14 @@ export default {
 .header-nav {
   height: auto;
   background: #fff;
-  box-shadow: 0 8px 16px 0 rgba(28, 31, 33, .1);
+  box-shadow: 0 8px 16px 0 rgba(28,31,33,.1);
   padding: 16px 0;
   box-sizing: border-box;
   position: relative;
   z-index: 1;
   /*background-color: #d6e9c6;*/
 }
-
-.header-nav > div {
+.header-nav>div {
   width: 100%;
   padding-left: 12px;
   box-sizing: border-box;
@@ -181,7 +205,6 @@ export default {
   margin-right: auto;
   /*background-color: #B4D5AC;*/
 }
-
 .header-nav a {
   float: left;
   font-size: 16px;
@@ -192,19 +215,15 @@ export default {
   margin-right: 46px;
   font-weight: 700;
 }
-
 .header-nav a:hover {
   color: #c80;
 }
-
 .header-nav a.cur {
   color: #c80;
 }
-
 .header-nav a.cur:before {
   display: block;
 }
-
 .header-nav a:before {
   display: none;
   content: ' ';
@@ -216,7 +235,6 @@ export default {
   left: 50%;
   margin-left: -8px;
 }
-
 /* 二级分类 */
 .skill {
   width: 100%;
@@ -224,12 +242,10 @@ export default {
   position: relative;
   margin: 0 auto;
 }
-
 .skill a.on {
   color: #c80;
-  background: rgba(204, 136, 0, .1);
+  background: rgba(204,136,0,.1);
 }
-
 .skill a {
   float: left;
   margin-right: 20px;
@@ -240,7 +256,6 @@ export default {
   border-radius: 6px;
   margin-bottom: 12px;
 }
-
 .skill a:hover {
   background: #d9dde1;
 }
