@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     let _this = this;
-    _this.$refs.pagination.size = 1;
+    _this.$refs.pagination.size = 3;
     _this.listCourse(1);
     _this.allCategory();
   },
@@ -153,6 +153,8 @@ export default {
      */
     onClickLevel2(level2Id) {
       let _this = this;
+      $("#category-" + level2Id).siblings("a").removeClass("on");
+      $("#category-" + level2Id).addClass("on");
     },
 
   }
