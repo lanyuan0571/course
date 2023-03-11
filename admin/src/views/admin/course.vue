@@ -47,7 +47,7 @@
             </div>
 
             <p>
-              <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
+              <span class="blue bolder bigger-150"><i class="fa fa-rmb"></i>{{course.price}}&nbsp;</span>&nbsp;
             </p>
             <p>{{course.summary}}</p>
             <p>
