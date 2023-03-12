@@ -1,114 +1,114 @@
 <template>
-  <div id="login-modal" className="modal fade" tabIndex="-1" role="dialog">
-    <div className="modal-dialog modal-login" role="document">
-      <div className="modal-content">
-        <div className="modal-body">
-          <div className="login-div" v-show="MODAL_STATUS === STATUS_LOGIN">
+  <div id="login-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="login-div" v-show="MODAL_STATUS === STATUS_LOGIN">
             <h3>登&nbsp;&nbsp;录</h3>
-            <div className="form-group">
-              <input v-model="member.mobile" className="form-control" placeholder="手机号">
+            <div class="form-group">
+              <input v-model="member.mobile" class="form-control" placeholder="手机号">
             </div>
-            <div className="form-group">
-              <input className="form-control" type="password" placeholder="密码" v-model="member.password">
+            <div class="form-group">
+              <input class="form-control" type="password" placeholder="密码" v-model="member.password">
             </div>
-            <div className="form-group">
-              <div className="input-group">
-                <input id="image-code-input" className="form-control" type="text" placeholder="验证码"
+            <div class="form-group">
+              <div class="input-group">
+                <input id="image-code-input" class="form-control" type="text" placeholder="验证码"
                        v-model="member.imageCode">
-                <div className="input-group-addon" id="image-code-addon">
+                <div class="input-group-addon" id="image-code-addon">
                   <img id="image-code" alt="验证码" v-on:click="loadImageCode()"/>
                 </div>
               </div>
             </div>
-            <div className="form-group">
-              <button v-on:click="login()" className="btn btn-primary btn-block submit-button">
+            <div class="form-group">
+              <button v-on:click="login()" class="btn btn-primary btn-block submit-button">
                 登&nbsp;&nbsp;录
               </button>
             </div>
-            <div className="form-group">
-              <div className="checkbox">
+            <div class="form-group">
+              <div class="checkbox">
                 <label>
-                  <input type="checkbox" className="remember" v-model="remember"> 记住密码
+                  <input type="checkbox" class="remember" v-model="remember"> 记住密码
                 </label>
-                <div className="pull-right">
+                <div class="pull-right">
                   <a href="javascript:;" v-on:click="toForgetDiv()">忘记密码</a>&nbsp;
                   <a href="javascript:;" v-on:click="toRegisterDiv()">我要注册</a>
                 </div>
               </div>
             </div>
-            <div className="form-group to-register-div">
+            <div class="form-group to-register-div">
             </div>
           </div>
-          <div className="register-div" v-show="MODAL_STATUS === STATUS_REGISTER">
+          <div class="register-div" v-show="MODAL_STATUS === STATUS_REGISTER">
             <h3>注&nbsp;&nbsp;册</h3>
-            <div className="form-group">
+            <div class="form-group">
               <input id="register-mobile" v-model="memberRegister.mobile"
-                     className="form-control" placeholder="手机号">
+                     class="form-control" placeholder="手机号">
             </div>
-            <div className="form-group">
-              <div className="input-group">
-                <input id="register-mobile-code" className="form-control"
+            <div class="form-group">
+              <div class="input-group">
+                <input id="register-mobile-code" class="form-control"
                        placeholder="手机验证码" v-model="memberRegister.code">
-                <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" id="register-send-code-btn"
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" id="register-send-code-btn"
                           v-on:click="sendSmsForRegister()">发送验证码
                   </button>
                 </div>
               </div>
             </div>
-            <div className="form-group">
+            <div class="form-group">
               <input id="register-name" v-model="memberRegister.name"
-                     className="form-control" placeholder="昵称">
+                     class="form-control" placeholder="昵称">
             </div>
-            <div className="form-group">
+            <div class="form-group">
               <input id="register-password" v-model="memberRegister.passwordOriginal"
-                     className="form-control" placeholder="密码" type="password">
+                     class="form-control" placeholder="密码" type="password">
             </div>
-            <div className="form-group">
+            <div class="form-group">
               <input id="register-confirm-password" v-model="memberRegister.confirm"
-                     className="form-control" placeholder="确认密码"
+                     class="form-control" placeholder="确认密码"
                      name="memberRegisterConfirm" type="password">
             </div>
-            <div className="form-group">
-              <button className="btn btn-primary btn-block submit-button" v-on:click="register()">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block submit-button" v-on:click="register()">
                 注&nbsp;&nbsp;册
               </button>
             </div>
-            <div className="form-group to-login-div">
+            <div class="form-group to-login-div">
               <a href="javascript:;" v-on:click="toLoginDiv()">我要登录</a>
             </div>
           </div>
-          <div className="forget-div" v-show="MODAL_STATUS === STATUS_FORGET">
+          <div class="forget-div" v-show="MODAL_STATUS === STATUS_FORGET">
             <h3>忘记密码</h3>
-            <div className="form-group">
+            <div class="form-group">
               <input id="forget-mobile" v-model="memberForget.mobile"
-                     className="form-control" placeholder="手机号">
+                     class="form-control" placeholder="手机号">
             </div>
-            <div className="form-group">
-              <div className="input-group">
-                <input id="forget-mobile-code" className="form-control"
+            <div class="form-group">
+              <div class="input-group">
+                <input id="forget-mobile-code" class="form-control"
                        placeholder="手机验证码" v-model="memberForget.code">
-                <div className="input-group-append">
-                  <button className="btn btn-outline-secondary" id="forget-send-code-btn">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" id="forget-send-code-btn">
                     发送验证码
                   </button>
                 </div>
               </div>
             </div>
-            <div className="form-group">
+            <div class="form-group">
               <input id="forget-password" v-model="memberForget.passwordOriginal"
-                     className="form-control" placeholder="密码" type="password">
+                     class="form-control" placeholder="密码" type="password">
             </div>
-            <div className="form-group">
+            <div class="form-group">
               <input id="forget-confirm-password" v-model="memberForget.confirm"
-                     className="form-control" placeholder="确认密码" type="password">
+                     class="form-control" placeholder="确认密码" type="password">
             </div>
-            <div className="form-group">
-              <button className="btn btn-primary btn-block submit-button">
+            <div class="form-group">
+              <button class="btn btn-primary btn-block submit-button">
                 重&nbsp;&nbsp;置
               </button>
             </div>
-            <div className="form-group to-login-div">
+            <div class="form-group to-login-div">
               <a href="javascript:;" v-on:click="toLoginDiv()">我要登录</a>
             </div>
           </div>
