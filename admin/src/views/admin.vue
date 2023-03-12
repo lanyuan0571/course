@@ -184,7 +184,8 @@
                   <ul class="dropdown-menu dropdown-navbar">
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar.png" class="msg-photo"
+                             alt="Alex's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Alex:</span>
@@ -201,7 +202,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar3.png" class="msg-photo"
+                             alt="Susan's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Susan:</span>
@@ -218,7 +220,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar4.png" class="msg-photo"
+                             alt="Bob's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Bob:</span>
@@ -235,7 +238,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar2.png" class="msg-photo"
+                             alt="Kate's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Kate:</span>
@@ -252,7 +256,8 @@
 
                     <li>
                       <a href="#" class="clearfix">
-                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar" />
+                        <img src="../../public/ace/assets/images/avatars/avatar5.png" class="msg-photo"
+                             alt="Fred's Avatar"/>
                         <span class="msg-body">
 													<span class="msg-title">
 														<span class="blue">Fred:</span>
@@ -280,7 +285,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
 
                 <i class="ace-icon fa fa-caret-down"></i>
               </a>
@@ -352,7 +357,7 @@
           <li class="" id="welcome-sidebar">
             <router-link to="/welcome">
               <i class="menu-icon fa fa-tachometer"></i>
-              <span class="menu-text"> 欢迎：{{loginUser.name}} </span>
+              <span class="menu-text"> 欢迎：{{ loginUser.name }} </span>
             </router-link>
 
             <b class="arrow"></b>
@@ -433,7 +438,14 @@
 
                 <b class="arrow"></b>
               </li>
+              <li v-show="hasResource('0204')" class="" id="business-member-sidebar">
+                <router-link to="/business/member">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  会员管理
+                </router-link>
 
+                <b class="arrow"></b>
+              </li>
             </ul>
           </li>
 
@@ -463,7 +475,8 @@
         </ul><!-- /.nav-list -->
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+          <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+             data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
         </div>
       </div>
 
@@ -485,7 +498,7 @@
         <div class="footer-inner">
           <div class="footer-content">
 						<span class="bigger-120">
-							<span class="blue bolder">{{loginUser.name}}</span>
+							<span class="blue bolder">{{ loginUser.name }}</span>
 							在线视频课程 &copy; 2099-2099
 						</span>
 
@@ -517,12 +530,12 @@
 <script>
 export default {
   name: "admin",
-  data: function() {
+  data: function () {
     return {
       loginUser: {},
     }
   },
-  mounted: function() {
+  mounted: function () {
     let _this = this;
     $("body").removeClass("login-layout light-login");
     $("body").attr("class", "no-skin");
@@ -539,7 +552,7 @@ export default {
   },
   watch: {
     $route: {
-      handler:function(val, oldVal){
+      handler: function (val, oldVal) {
         // sidebar激活样式方法二
         console.log("---->页面跳转：", val, oldVal);
         let _this = this;
@@ -549,7 +562,7 @@ export default {
           return;
         }
 
-        _this.$nextTick(function(){  //页面加载完成后执行
+        _this.$nextTick(function () {  //页面加载完成后执行
           _this.activeSidebar(_this.$route.name.replace("/", "-") + "-sidebar");
         })
       }
@@ -564,7 +577,7 @@ export default {
       return Tool.hasResource(id);
     },
 
-    login () {
+    login() {
       this.$router.push("/admin")
     },
 
@@ -587,10 +600,10 @@ export default {
       }
     },
 
-    logout () {
+    logout() {
       let _this = this;
       Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response)=>{
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response) => {
         Loading.hide();
         let resp = response.data;
         if (resp.success) {

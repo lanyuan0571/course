@@ -14,7 +14,7 @@ import File from "./views/admin/file.vue"
 import User from "./views/admin/user.vue"
 import Resource from "./views/admin/resource.vue"
 import Role from "./views/admin/role.vue"
-// import Member from "./views/admin/member.vue"
+import Member from "./views/admin/member.vue"
 // import Sms from "./views/admin/sms.vue"
 
 Vue.use(Router);
@@ -25,13 +25,13 @@ export default new Router({
     routes: [{
         path: "*",
         redirect: "/login",
-    },{
+    }, {
         path: "",
         redirect: "/login",
-    },{
+    }, {
         path: "/login",
         component: Login
-    },{
+    }, {
         path: "/",
         name: "admin",
         component: Admin,
@@ -43,30 +43,34 @@ export default new Router({
             path: "welcome",
             name: "welcome",
             component: Welcome
-        },{
+        }, {
             path: "business/category",
             name: "business/category",
             component: Category,
-        },{
+        }, {
             path: "business/chapter",
             name: "business/chapter",
             component: Chapter,
-        },{
+        }, {
             path: "business/section",
             name: "business/section",
             component: Section,
-        },{
+        }, {
             path: "business/course",
             name: "business/course",
             component: Course,
-        },{
+        }, {
             path: "business/teacher",
             name: "business/teacher",
             component: Teacher,
-        },{
+        }, {
             path: "business/content",
             name: "business/content",
             component: Content,
+        }, {
+            path: "business/member",
+            name: "business/member",
+            component: Member,
         }, {
             path: "file/file",
             name: "file/file",
@@ -79,7 +83,7 @@ export default new Router({
             path: "system/resource",
             name: "system/resource",
             component: Resource,
-        },{
+        }, {
             path: "system/role",
             name: "system/role",
             component: Role,
