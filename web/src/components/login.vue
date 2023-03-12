@@ -42,8 +42,11 @@
           <div class="register-div" v-show="MODAL_STATUS === STATUS_REGISTER">
             <h3>注&nbsp;&nbsp;册</h3>
             <div class="form-group">
-              <input id="register-mobile" v-model="memberRegister.mobile"
+              <input v-on:blur="onRegisterMobileBlur()"
+                     v-bind:class="registerMobileValidateClass"
+                     id="register-mobile" v-model="memberRegister.mobile"
                      class="form-control" placeholder="手机号">
+              <span v-show="registerMobileValidate === false" class="text-danger">手机号11位数字，且不能重复</span>
             </div>
             <div class="form-group">
               <div class="input-group">
@@ -135,8 +138,19 @@ export default {
       memberRegister: {},
 
       remember: true, // 记住密码
-      imageCodeToken: ""
+      imageCodeToken: "",
+
+      // 注册框显示错误信息
+      registerMobileValidate: null,
     }
+  },
+  computed: {
+    registerMobileValidateClass: function () {
+      return {
+        'border-success': this.registerMobileValidate === true,
+        'border-danger': this.registerMobileValidate === false,
+      }
+    },
   },
   mounted() {
     let _this = this;
@@ -193,7 +207,7 @@ export default {
 
 
     //---------------登录框-----------------
-    login() {
+    login () {
       let _this = this;
 
       // 如果密码是从缓存带出来的，则不需要重新加密
@@ -205,10 +219,12 @@ export default {
 
       _this.member.imageCodeToken = _this.imageCodeToken;
 
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/member/login', _this.member).then((response) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/member/login', _this.member).then((response)=>{
         let resp = response.data;
         if (resp.success) {
           console.log("登录成功：", resp.content);
+          Toast.success("登录成功");
+          $("#login-modal").modal("hide");
           let loginMember = resp.content;
           Tool.setLoginMember(resp.content);
 
@@ -247,19 +263,23 @@ export default {
       _this.imageCodeToken = Tool.uuid(8);
       $('#image-code').attr('src', process.env.VUE_APP_SERVER + '/business/web/kaptcha/image-code/' + _this.imageCodeToken);
     },
+
     /**
      * 发送注册短信
      */
     sendSmsForRegister() {
       let _this = this;
+
+      if (!_this.onRegisterMobileBlur()) {
+        return false;
+      }
+
       let sms = {
         mobile: _this.memberRegister.mobile,
         use: SMS_USE.REGISTER.key
       };
 
-      // _this.sendSmsCode(sms);
-      // _this.sendSmsCode(sms, "register-send-code-btn");
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/member/is-mobile-exist/' + _this.memberRegister.mobile).then((res) => {
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/business/web/member/is-mobile-exist/' + _this.memberRegister.mobile).then((res)=>{
         let response = res.data;
         if (response.success) {
           Toast.warning("手机号已被注册");
@@ -277,10 +297,11 @@ export default {
       let _this = this;
 
       // 调服务端发短信接口
-      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/sms/send', sms).then((res) => {
+      _this.$ajax.post(process.env.VUE_APP_SERVER + '/business/web/sms/send', sms).then((res)=> {
         let response = res.data;
         if (response.success) {
-          Toast.success("短信已发送")
+          Toast.success("短信已发送");
+
           // 开始倒计时
           _this.countdown = 60;
           _this.setTime(btnId);
@@ -289,6 +310,7 @@ export default {
         }
       })
     },
+
     /**
      * 倒计时
      * @param btnId
@@ -310,6 +332,14 @@ export default {
       }, 1000);
     },
 
+
+    //-------------------------------- 注册框校验 ----------------------------
+
+    onRegisterMobileBlur () {
+      let _this = this;
+      _this.registerMobileValidate = Pattern.validateMobile(_this.memberRegister.mobile);
+      return _this.registerMobileValidate;
+    },
   }
 }
 </script>
