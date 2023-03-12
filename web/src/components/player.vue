@@ -42,9 +42,7 @@ export default {
 
     playVod (vod) {
       let _this = this;
-      Loading.show();
-      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/admin/get-auth/' + vod).then((response)=>{
-        Loading.hide();
+      _this.$ajax.get(process.env.VUE_APP_SERVER + '/file/web/get-auth/' + vod).then((response)=>{
         let resp = response.data;
         if (resp.success) {
           //如果已经有播放器了，则将播放器div删除
@@ -61,7 +59,8 @@ export default {
             autoplay: false,
             vid: vod,
             playauth: resp.content,
-            cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
+            // cover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
+            cover: '/static/image/video-image.png',
             encryptType:1, //当播放私有加密流时需要设置。
           },function(player){
             console.log('播放器创建好了。')
