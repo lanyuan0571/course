@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -57,6 +58,8 @@ public class LoginAdminGatewayFilter implements GatewayFilter, Ordered {
             LOG.info("接口权限校验，请求地址：{}", path);
             boolean exist = false;
             JSONObject loginUserDto = JSON.parseObject(String.valueOf(object));
+            //增加redis中的token刷新时间，当用户一直在操作时登录不会超时
+            redisTemplate.opsForValue().set(token, JSON.toJSONString(loginUserDto), 3600, TimeUnit.SECONDS);
             JSONArray requests = loginUserDto.getJSONArray("requests");
             // 遍历所有【权限请求】，判断当前请求的地址是否在【权限请求】里
             for (int i = 0, l = requests.size(); i < l; i++) {
