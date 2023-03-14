@@ -17,6 +17,12 @@ export default {
     }
   },
   methods: {
+    //模态框暂停方法
+    pause() {
+      let _this = this;
+      _this.aliPlayer.pause();
+    },
+    //播放地址
     playUrl(url) {
       let _this = this;
       console.log("开始播放:", url);
