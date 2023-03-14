@@ -241,6 +241,8 @@ export default {
       let _this = this;
       let image = resp.content.path;
       _this.teacher.image = image;
+      // 新增讲师，上传头像后不能实时预览，解决方法
+      _this.$forceUpdate();
     }
   }
 }
