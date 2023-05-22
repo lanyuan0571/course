@@ -11,6 +11,10 @@
 
     <artifactId>system</artifactId>
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+<!--        </dependency>-->
         <!--nacos-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

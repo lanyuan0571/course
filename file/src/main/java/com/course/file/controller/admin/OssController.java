@@ -40,7 +40,7 @@ public class OssController {
     @Value("${oss.bucket}")
     private String bucket;
 
-    @Value("${oss.ossDomain}")
+    @Value("${oss.Domain}")
     private String ossDomain;
 
     public static final String BUSINESS_NAME = "文件上传";

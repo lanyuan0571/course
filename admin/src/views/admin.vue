@@ -285,8 +285,7 @@
 
             <li class="light-blue dropdown-modal">
               <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                <img class="nav-user-photo" src="../../public/ace/assets/images/avatars/user.jpg" alt="Jason's Photo"/>
-
+                <img class="nav-user-photo" src="../../public/static/image/讲师头像/讲师头像4.jpg" alt="Jason's Photo"/>
                 <i class="ace-icon fa fa-caret-down"></i>
               </a>
 
